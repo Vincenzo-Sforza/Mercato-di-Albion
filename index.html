@@ -125,7 +125,8 @@ h2 { font-family: var(--serif); font-size: 19px; font-weight: 700; letter-spacin
 .vt:hover b { color: #6E4C25; }
 .vt.on b { color: var(--ink); }
 .vt.on::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; border-radius: 3px 3px 0 0; background: linear-gradient(90deg, #8A5A22, #C9953F, #8A5A22); }
-.vt.on b::before { content: "❖"; font-size: 12px; color: #B07A2E; margin-right: 8px; vertical-align: 3px; }
+.vt b::before { content: "❖"; font-size: 12px; color: #B07A2E; margin-right: 8px; vertical-align: 3px; visibility: hidden; }
+.vt.on b::before { visibility: visible; }
 .vmeta { display: flex; align-items: center; gap: 10px; padding-bottom: 16px; }
 .stamp { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; color: var(--muted); background: rgba(255,250,235,.55); border: 1px solid rgba(90,58,28,.22); border-radius: 999px; padding: 5px 12px; white-space: nowrap; }
 .stamp i { width: 7px; height: 7px; border-radius: 50%; background: #3D8A4A; box-shadow: 0 0 0 3px rgba(61,138,74,.18); }
@@ -267,13 +268,14 @@ i.dot-b { background: #B8402F; } i.dot-s { background: #3D8A4A; }
 .more .sub i.dot-b, .more .sub i.dot-s { margin-left: 2px; }
 .only-m { display: none; }
 
-/* la spunta */
-.ckb { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 34px; margin: -6px -6px -6px -8px; cursor: pointer; }
-.ckb input { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; margin: 0; flex: none; border-radius: 5px; border: 2px solid rgba(100,65,28,.5); background: rgba(255,250,235,.75); cursor: pointer; }
-.ckb input:hover { border-color: #6B4524; }
-.ckb input:checked, .ckb input:indeterminate { border-color: #4A2E15; background: #6B4524 center / 14px no-repeat url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M3.5 8.5l3 3 6-7' fill='none' stroke='%23F3E3BE' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/></svg>"); }
-.ckb input:indeterminate { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M4 8h8' stroke='%23F3E3BE' stroke-width='2.4' stroke-linecap='round'/></svg>"); }
+/* la stella dei preferiti */
+.ckb { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 34px; margin: -6px -6px -6px -8px; cursor: pointer; }
+.ckb input { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; margin: 0; flex: none; border: none; border-radius: 4px; background: center / 22px no-repeat url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path d='M10 1.8l2.5 5.1 5.6.8-4.1 4 1 5.6-5-2.7-5 2.7 1-5.6-4.1-4 5.6-.8z' fill='none' stroke='%239a7d58' stroke-width='1.4' stroke-linejoin='round'/></svg>"); cursor: pointer; transition: transform .12s; }
+.ckb input:hover { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path d='M10 1.8l2.5 5.1 5.6.8-4.1 4 1 5.6-5-2.7-5 2.7 1-5.6-4.1-4 5.6-.8z' fill='none' stroke='%236B4524' stroke-width='1.7' stroke-linejoin='round'/></svg>"); transform: scale(1.08); }
+.ckb input:checked { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path d='M10 1.8l2.5 5.1 5.6.8-4.1 4 1 5.6-5-2.7-5 2.7 1-5.6-4.1-4 5.6-.8z' fill='%23D9A441' stroke='%238A5A22' stroke-width='1.2' stroke-linejoin='round'/></svg>"); }
+.ckb input:indeterminate { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path d='M10 1.8l2.5 5.1 5.6.8-4.1 4 1 5.6-5-2.7-5 2.7 1-5.6-4.1-4 5.6-.8z' fill='%23D9A441' fill-opacity='.4' stroke='%238A5A22' stroke-width='1.2' stroke-linejoin='round'/></svg>"); }
 .ckb input:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; }
+@media (prefers-reduced-motion: no-preference) { .ckb input:checked { animation: pop8 .28s ease-out; } @keyframes pop8 { 40% { transform: scale(1.3); } } }
 .ckall { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; white-space: nowrap; }
 .ckall .ckb { margin: 0 -4px 0 -6px; height: 28px; }
 .cnt { font-weight: 700; color: var(--ink); font-size: 12.5px; }
@@ -412,11 +414,13 @@ table.hs em.tag, .hb em.tag { font-style: normal; font-size: 10px; font-weight: 
 .dbox.on .dn { color: #8A5A12; }
 
 @media (max-width: 720px) {
-  .hgrp { width: 100%; } .hgrp .seg.sm { flex: 1; } .hgrp .seg.sm button { flex: 1; justify-content: center; }
-  .hgrp.vsw { margin-left: 0; }
-  .dbox { width: 100%; height: auto; flex-wrap: wrap; padding: 8px 10px; }
-  .dbox .dt { flex: 1; min-width: 0; } .dbox .dt input { flex: 1; min-width: 0; width: 100%; }
-  .dbox .arr { display: none; } .dbox .dn { flex-basis: 100%; }
+  #perbar:has(.vsw) { gap: 8px; }
+  .hgrp { display: contents; } .hgrp .lbl { display: none; }
+  .hgrp:not(.vsw) .seg.sm { width: 100%; } .hgrp .seg.sm button { flex: 1; justify-content: center; }
+  #perbar .vsw .seg.sm { width: auto; flex: none; height: 40px; } #perbar .vsw .seg.sm button { flex: none; padding: 0 12px; } .vsw svg { width: 17px; height: 17px; }
+  .dbox { flex: 1; min-width: 0; height: 40px; gap: 4px; padding: 0 6px; }
+  .dbox .dt { flex: 1; min-width: 0; } .dbox .dt input { flex: 1; min-width: 0; width: 100%; height: 30px; padding: 0 4px; font-size: 12.5px; }
+  .dbox .arr { font-size: 12px; } .dbox .dn { display: none; }
 }
 
 .hint { padding: 22px 12px 26px; text-align: center; font-size: 14px; color: var(--muted); }
@@ -433,6 +437,73 @@ table.hs em.tag, .hb em.tag { font-style: normal; font-size: 10px; font-weight: 
   .hbr .l { grid-area: l; } .hbr .n { grid-area: n; } .hbr .trk { grid-area: trk; margin: 0 24px; } .hbr .ld { grid-area: ld; }
   .hbr.none { display: flex; flex-wrap: wrap; gap: 4px 12px; padding: 10px; }
   .hbr .l em.tag { display: block; margin: 2px 0 0; }
+}
+
+.search-box { position: relative; }
+.sugg { position: absolute; left: -2px; right: -2px; top: calc(100% + 6px); z-index: 50; background: #F6ECD6; border: 2px solid #6B4524; border-radius: 12px;
+  box-shadow: 0 14px 34px rgba(40,22,6,.35), 0 2px 6px rgba(40,22,6,.2); overflow: hidden; text-transform: none; letter-spacing: normal; font-weight: 500; max-height: min(70vh, 560px); overflow-y: auto; }
+.sugg[hidden] { display: none; }
+.sg { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 7px 14px; border-bottom: 1px solid rgba(90,58,28,.12); cursor: pointer; }
+.sg:hover, .sg.kb { background: rgba(212,170,90,.28); }
+.sg.kb { box-shadow: inset 3px 0 0 #B8862E; }
+.sg .ico { width: 40px; height: 40px; }
+.sg .nm { font-size: 15px; font-weight: 600; color: var(--ink); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.sg .nm mark { background: none; color: inherit; font-weight: 800; text-decoration: underline; text-decoration-color: rgba(184,134,46,.7); text-underline-offset: 3px; }
+.sg .nm .tb { font-size: 11px; font-weight: 700; padding: 1px 6px; border-radius: 5px; border: 1px solid rgba(90,58,28,.35); color: #6E4C25; }
+.sg .path { display: block; font-size: 11.5px; color: #9a7d58; margin-top: 1px; }
+.sg .en { display: flex; gap: 4px; }
+.sg .en button { font: inherit; font-size: 12px; font-weight: 700; color: #6E4C25; padding: 3px 8px; border-radius: 6px; border: 1px solid rgba(90,58,28,.3); background: rgba(255,250,235,.6); cursor: pointer; }
+.sg .en button:hover { background: #5a3a1c; color: #f3e3c0; border-color: #5a3a1c; }
+.sfoot { display: flex; justify-content: space-between; gap: 10px; padding: 8px 14px; font-size: 12.5px; color: #8A6A42; background: rgba(90,58,28,.06); }
+.sfoot b { color: #5a3a1c; } .sfoot kbd { font: 700 11px Inter, system-ui, sans-serif; border: 1px solid rgba(90,58,28,.35); border-radius: 4px; padding: 0 5px; background: #fbf3e2; }
+.snone { padding: 14px; font-size: 13.5px; color: var(--muted); }
+@media (max-width: 720px) {
+  .sg { grid-template-columns: 36px minmax(0, 1fr); gap: 4px 10px; padding: 8px 10px; }
+  .sg .ico { width: 36px; height: 36px; }
+  .sg .en { grid-column: 2; } .sg .en button { padding: 4px 10px; }
+  .sfoot { justify-content: flex-end; }
+}
+
+/* stabilità e morbidezza */
+.stamp { min-width: 214px; justify-content: center; }
+.stamp.busy i { animation: pulse8 1s ease-in-out infinite; }
+@keyframes pulse8 { 50% { opacity: .25; } }
+.icard.stale > :not(.ihead) { opacity: .45; transition: opacity .15s; }
+.icard { position: relative; }
+.ldg { position: absolute; top: 10px; right: 12px; display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--muted); pointer-events: none; }
+@media (max-width: 720px) { .ldg { top: 6px; right: 8px; font-size: 0; gap: 0; } }
+.sk { display: inline-block; height: 11px; border-radius: 6px; vertical-align: middle; background: linear-gradient(90deg, rgba(90,58,28,.08), rgba(90,58,28,.17), rgba(90,58,28,.08)); background-size: 200% 100%; animation: sk8 1.2s linear infinite; }
+@keyframes sk8 { to { background-position: -200% 0; } }
+table.hs.skel .flagc, .hb.skel .flagc { opacity: .55; }
+.hb.skel .trk::before { top: 31px; }
+table.hs.skel td b { display: block; } table.hs.skel td b .sk { height: 13px; }
+@media (prefers-reduced-motion: no-preference) {
+  .exp8 { animation: open8 .18s ease-out; }
+  @keyframes open8 { from { opacity: 0; transform: translateY(-6px); } }
+  .row8, .icard, .hint, .empty { animation: fade8 .16s ease-out; }
+  @keyframes fade8 { from { opacity: 0; } }
+}
+@media (max-width: 720px) { .stamp { min-width: 0; } }
+
+/* pulsante «★ Preferiti» e titolo */
+.filters .qrow { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: end; }
+.filters .qrow .fld.q { grid-column: auto; min-width: 0; }
+.filters .qrow .favbtn { justify-self: end; }
+.favbtn { display: inline-flex; align-items: center; gap: 8px; height: 46px; padding: 0 16px; border-radius: 10px; border: 2px solid #8A5A22; background: linear-gradient(180deg, #6B4524, #4A2E15);
+  color: #F6E7C4; font: inherit; font-size: 14.5px; font-weight: 700; white-space: nowrap; cursor: pointer; box-shadow: 0 2px 6px rgba(60,35,10,.35); }
+.favbtn svg { width: 18px; height: 18px; fill: #E7B95A; flex: none; }
+.favbtn .n { background: #D9A441; color: #2b1a0a; border-radius: 999px; padding: 1px 8px; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.favbtn:hover { filter: brightness(1.1); }
+.favbtn:not(.on) { background: rgba(255,250,235,.55); color: var(--ink); border-color: rgba(100,65,28,.4); box-shadow: none; }
+.favbtn:not(.on) svg { fill: #C9953F; } .favbtn:not(.on) .n { background: rgba(90,58,28,.14); color: var(--ink); }
+.favbtn.zero:not(.on) svg { fill: none; stroke: #9a7d58; stroke-width: 1.4; }
+.favhead { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 2px 2px 10px; font-size: 15px; font-weight: 700; color: var(--ink); }
+.favhead svg { width: 17px; height: 17px; fill: #D9A441; stroke: #8A5A22; stroke-width: 1.2; }
+.favhead small { font-size: 12.5px; font-weight: 500; color: var(--muted); }
+.hint .sub { display: inline-block; margin-top: 6px; font-size: 12.5px; color: var(--faint); }
+@media (max-width: 720px) {
+  .filters .qrow { gap: 8px; }
+  .favbtn { padding: 0 12px; gap: 6px; } .favbtn .fl { display: none; }
 }
 </style>
 </head>
@@ -455,14 +526,18 @@ table.hs em.tag, .hb em.tag { font-style: normal; font-size: 10px; font-weight: 
     </div>
     <div class="rule" aria-hidden="true"><span></span><i>❖</i><span></span></div>
     <div class="filters" id="filters" role="search">
+      <div class="qrow">
       <label class="fld q" for="q"><span>Cerca</span>
         <span class="search-box">
           <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="9" cy="9" r="6"/><path d="M14 14l4 4"/></svg>
-          <input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="Es. copricapo da cacciatore">
+          <input id="q" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="sugg" aria-expanded="false" placeholder="Es. copricapo da cacciatore">
           <button type="button" class="x" id="qx" aria-label="Cancella il testo" hidden>×</button>
           <kbd>/</kbd>
+          <div class="sugg" id="sugg" role="listbox" aria-label="Oggetti trovati" hidden></div>
         </span>
       </label>
+      <button type="button" class="favbtn zero" id="favBtn" title="Mostra tutti i tuoi preferiti"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.8l2.5 5.1 5.6.8-4.1 4 1 5.6-5-2.7-5 2.7 1-5.6-4.1-4 5.6-.8z"/></svg><span class="fl">Preferiti</span><span class="n" id="favN">0</span></button>
+      </div>
       <label class="fld"><span>Categoria</span><span class="sel"><select id="fCat"></select></span></label>
       <label class="fld"><span>Sottocategoria</span><span class="sel"><select id="fSub"></select></span></label>
       <label class="fld"><span>Tipo</span><span class="sel"><select id="fTyp"></select></span></label>
@@ -505,6 +580,29 @@ table.hs em.tag, .hb em.tag { font-style: normal; font-size: 10px; font-weight: 
 
   const $ = (s, r = document) => r.querySelector(s);
   const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  function morph(a, b) {
+    if (a.nodeType !== b.nodeType || a.nodeName !== b.nodeName) { a.replaceWith(b); return; }
+    if (a.nodeType !== 1) { if (a.nodeValue !== b.nodeValue) a.nodeValue = b.nodeValue; return; }
+    for (const at of [...a.attributes]) if (!b.hasAttribute(at.name)) a.removeAttribute(at.name);
+    for (const at of b.attributes) if (a.getAttribute(at.name) !== at.value) a.setAttribute(at.name, at.value);
+    if (a.tagName === "INPUT") { if (a.checked !== b.checked) a.checked = b.checked; if (a.type !== "checkbox" && a !== document.activeElement && a.value !== b.value) a.value = b.value; }
+    morphKids(a, b);
+  }
+  function morphKids(a, b) {
+    const key = n => n.nodeType === 1 ? n.getAttribute("data-k") : null, keyed = new Map();
+    for (const c of a.childNodes) { const k = key(c); if (k) keyed.set(k, c); }
+    const nk = new Set(); for (const n of b.childNodes) { const k = key(n); if (k) nk.add(k); }
+    let cur = a.firstChild;
+    for (const nb of [...b.childNodes]) {
+      while (cur && key(cur) && !nk.has(key(cur))) { const n = cur.nextSibling; keyed.delete(key(cur)); cur.remove(); cur = n; }   // tolgo subito ciò che non c'è più
+      const k = key(nb); let m = null;
+      if (k && keyed.has(k)) { m = keyed.get(k); keyed.delete(k); if (m !== cur) a.insertBefore(m, cur); }
+      else if (!k && cur && !key(cur) && cur.nodeType === nb.nodeType && cur.nodeName === nb.nodeName) m = cur;
+      if (m) { cur = m.nextSibling; morph(m, nb); } else a.insertBefore(nb, cur);
+    }
+    while (cur) { const n = cur.nextSibling; cur.remove(); cur = n; }
+  }
+  const setHTML = (el, html) => { const t = document.createElement("template"); t.innerHTML = html; morphKids(el, t.content); };
   const norm = s => String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/['’`]/g, "").replace(/[^a-z0-9@_. ]+/g, " ").replace(/\s+/g, " ").trim();
   const fmt = n => { if (n == null || !isFinite(n)) return "—"; const r = Math.round(n); return (r < 0 ? "−" : "") + String(Math.abs(r)).replace(/\B(?=(\d{3})+(?!\d))/g, "."); };
   const fmtShort = n => Math.abs(n) >= 1e6 ? (n / 1e6).toFixed(2).replace(/\.?0+$/, "").replace(".", ",") + "M" : Math.abs(n) >= 1e4 ? Math.round(n / 1e3) + "k" : fmt(n);
@@ -561,7 +659,7 @@ table.hs em.tag, .hb em.tag { font-style: normal; font-size: 10px; font-weight: 
     set(k, v) { try { localStorage.setItem("mercato-" + k, JSON.stringify(v)); } catch {} }
   };
   // la qualità parte da «Normale»: mescolare qualità diverse rende i prezzi incomparabili
-  const NOF = { text: "", cat: -1, sub: -1, typ: -1, tier: 0, ench: -1, qual: 1 };
+  const NOF = { text: "", cat: -1, sub: -1, typ: -1, tier: 0, ench: -1, qual: 1, pick: "" };
   const S = {
     server: store.get("server", "europe"), premium: store.get("premium", false), fee: store.get("fee", true),
     f: { ...NOF, ...(store.get("flt2", null) ?? { ...store.get("flt", {}), qual: 1 }) },
@@ -576,6 +674,8 @@ table.hs em.tag, .hb em.tag { font-style: normal; font-size: 10px; font-weight: 
   const PRESETS = [1, 7, 15, 30];
   if (![0, ...PRESETS].includes(S.hp.p)) S.hp.p = 30;
   if (!CATS[S.f.cat]) { S.f.cat = -1; S.f.sub = -1; }
+  if (S.f.pick && !byBase.has(S.f.pick)) S.f.pick = "";
+  if (!S.f.pick) S.f.text = "";
   if (S.f.cat < 0 || !CATS[S.f.cat][2][S.f.sub]) S.f.sub = -1;
   if (S.f.sub < 0 || !CATS[S.f.cat][2][S.f.sub][2][S.f.typ]) S.f.typ = -1;
   const HOSTS = { europe: "https://europe.albion-online-data.com", west: "https://west.albion-online-data.com", east: "https://east.albion-online-data.com" };
@@ -645,32 +745,42 @@ table.hs em.tag, .hb em.tag { font-style: normal; font-size: 10px; font-weight: 
   // vendite concluse nel periodo, città per città: pezzi, media pesata, minimo e massimo delle medie di ogni giorno (o fascia di 6 ore)
   function histStats(r) {
     const rec = S.hx.get(hKey(r.id)); if (!rec) return null;
-    const hr = histRange(), q = rowQ(r), from = hr.ts === 6 ? hr.lo - 6 * 3600e3 : hr.lo, per = {};
-    for (const h of rec.rows) {
-      const ck = cityKey(h.location); if (!CITY[ck] || (r.withQ && q && h.quality !== q)) continue;
-      const m = per[ck] || (per[ck] = new Map());
-      for (const d of h.data || []) {
-        const t = +parseDate(d.timestamp);
-        if (!t || t < from || t > hr.hi || !(d.item_count > 0) || !(d.avg_price > 0)) continue;
-        const z = m.get(t) || { n: 0, s: 0 }; z.n += d.item_count; z.s += d.avg_price * d.item_count; m.set(t, z);
+    const hr = histRange(), q = rowQ(r), per = {};
+    [[rec.d, 24], [rec.s, 6], [rec.h, 1]].forEach(([rows, sc], si) => {
+      for (const h of rows || []) {
+        const ck = cityKey(h.location); if (!CITY[ck] || (r.withQ && q && h.quality !== q)) continue;
+        const m = (per[ck] || (per[ck] = [new Map(), new Map(), new Map()]))[si];
+        for (const d of h.data || []) {
+          const t = +parseDate(d.timestamp);
+          if (!t || t + sc * 3600e3 <= hr.lo || t > hr.hi || !(d.item_count > 0) || !(d.avg_price > 0)) continue;
+          const day = utcMid(t), l = m.get(day) || []; m.set(day, l);
+          const z = l.find(z => z.t === t) || (l.push({ t, n: 0, s: 0 }), l[l.length - 1]);
+          z.n += d.item_count; z.s += d.avg_price * d.item_count;
+        }
       }
-    }
-    const lastH = {};
-    for (const h of rec.hrows || []) {
-      const ck = cityKey(h.location); if (!CITY[ck] || (r.withQ && q && h.quality !== q)) continue;
-      for (const d of h.data || []) { const t = +parseDate(d.timestamp); if (t && t >= hr.lo && t <= hr.hi && d.item_count > 0 && t > (lastH[ck] || 0)) lastH[ck] = t; }
-    }
+    });
+    const lastOf = m => { let x = 0; for (const l of m.values()) for (const z of l) if (z.t > x) x = z.t; return x; };
     const out = {};
     for (const c of CITIES) {
-      const m = per[c.key];
-      if (!m || !m.size) { out[c.key] = null; continue; }
-      const pts = [...m].map(([t, z]) => ({ t, v: z.s / z.n, n: z.n })).sort((a, b) => a.t - b.t);
-      const n = pts.reduce((s, p) => s + p.n, 0);
-      out[c.key] = { pts, n, avg: pts.reduce((s, p) => s + p.v * p.n, 0) / n, min: Math.min(...pts.map(p => p.v)), max: Math.max(...pts.map(p => p.v)), days: new Set(pts.map(p => utcMid(p.t))).size,
-        last: lastH[c.key] ? { t: lastH[c.key], h: true } : { t: pts[pts.length - 1].t, h: hr.ts < 24 } };
+      const P = per[c.key];
+      if (!P) { out[c.key] = null; continue; }
+      const pts = [], ext = [];
+      for (const day of new Set([...P[0].keys(), ...P[1].keys(), ...P[2].keys()])) {
+        let best = null, bn = 0;                              // pezzi e media: la serie con più vendite quel giorno (a parità vince quella per giorno)
+        for (const m of P) { const l = m.get(day); if (!l) continue; const n = l.reduce((a, z) => a + z.n, 0); if (n > bn) { bn = n; best = l; } }
+        for (const z of best) pts.push({ t: z.t, v: z.s / z.n, n: z.n });
+        const fine = P[2].get(day) || P[1].get(day) || P[0].get(day);   // minimo e massimo: la serie più fine che c'è (ora, poi 6 ore, poi giorno)
+        for (const z of fine) ext.push(z.s / z.n);
+      }
+      if (!pts.length) { out[c.key] = null; continue; }
+      pts.sort((a, b) => a.t - b.t);
+      const n = pts.reduce((s, p) => s + p.n, 0), ld = lastOf(P[0]), lf = Math.max(lastOf(P[1]), lastOf(P[2]));
+      out[c.key] = { pts, n, avg: pts.reduce((s, p) => s + p.v * p.n, 0) / n, min: Math.min(...ext), max: Math.max(...ext), days: new Set(pts.map(p => utcMid(p.t))).size,
+        last: lf && utcMid(lf) >= utcMid(ld) ? { t: lf, h: true } : { t: ld, h: false } };   // l'ultimo dato più recente tra le tre serie
     }
     return out;
   }
+
 
   // ---------- ricerca come nel mercato del gioco: testo + categoria, sottocategoria, tier, incantamento ----------
   function search(n) {
@@ -693,13 +803,17 @@ table.hs em.tag, .hb em.tag { font-style: normal; font-size: 10px; font-weight: 
   let memoKey = null, memo = null;
   const RANK = new Map(BROWSE.map((x, i) => [x.base, i]));
   // tutte le righe che corrispondono ai filtri (una per tier e incantamento).
-  // Senza testo né categoria: gli oggetti con la spunta (memo.sel = true); null = nessuna spunta e nessuna ricerca
+  // Senza oggetto scelto né categoria: i preferiti (memo.sel = true); null = nessun preferito
   function results() {
-    const f = S.f, n = norm(f.text);
-    const key = [n, f.cat, f.sub, f.typ, f.tier, f.ench, S.selVer].join("|");
+    const f = S.f;
+    const key = [f.pick, f.cat, f.sub, f.typ, f.tier, f.ench, S.selVer].join("|");
     if (key === memoKey) return memo;
     memoKey = key;
-    if (n.length < 2 && f.cat < 0) {
+    if (f.pick) {                                   // un oggetto scelto dai suggerimenti della ricerca
+      const x = byBase.get(f.pick);
+      return memo = !x ? [] : x.ench.filter(e => f.ench < 0 || e === f.ench).map(e => ({ item: x, e, id: variantId(x, e), withQ: hasQuality(x.base) }));
+    }
+    if (f.cat < 0) {
       if (!S.sel.size) return memo = null;
       const out = [...S.sel].map(id => ({ id, v: parseVariant(id) })).filter(z => z.v && (!f.tier || z.v.item.tier === f.tier) && (f.ench < 0 || z.v.e === f.ench))
         .sort((a, b) => RANK.get(a.v.item.base) - RANK.get(b.v.item.base) || a.v.e - b.v.e)
@@ -708,8 +822,8 @@ table.hs em.tag, .hb em.tag { font-style: normal; font-size: 10px; font-weight: 
       return memo = out;
     }
     const out = [];
-    for (const x of n.length >= 2 ? search(n) : BROWSE) {
-      if (f.cat >= 0 && x.c !== f.cat) continue;
+    for (const x of BROWSE) {
+      if (x.c !== f.cat) continue;
       if (f.sub >= 0 && x.s !== f.sub) continue;
       if (f.typ >= 0 && x.t !== f.typ) continue;
       if (f.tier && x.tier !== f.tier) continue;
@@ -743,16 +857,15 @@ table.hs em.tag, .hb em.tag { font-style: normal; font-size: 10px; font-weight: 
         S.at = new Date(); renderView();
       }
       for (const part of chunks(needH, 20)) {
-        const rows = await api(`/api/v2/stats/history/${part.map(encodeURIComponent).join(",")}.json?locations=${LOCS}&qualities=${qp}&time-scale=${hr.ts}&date=${ymd(new Date(hr.lo))}&end_date=${ymd(new Date(hr.hi + DAY))}`);
-        if (server !== S.server) return;
-        let hrows = [];
-        const h0 = Math.max(hr.lo, Date.now() - 7 * DAY);
-        if (hr.hi > h0) hrows = await api(`/api/v2/stats/history/${part.map(encodeURIComponent).join(",")}.json?locations=${LOCS}&qualities=${qp}&time-scale=1&date=${ymd(new Date(h0))}&end_date=${ymd(new Date(hr.hi + DAY))}`);
-        if (server !== S.server) return;
-        const at = Date.now(), got = new Map(part.map(id => [id, { rows: [], hrows: [] }]));
-        for (const r of rows) if (got.has(r.item_id)) got.get(r.item_id).rows.push(r);
-        for (const r of hrows) if (got.has(r.item_id)) got.get(r.item_id).hrows.push(r);
-        got.forEach((g, id) => S.hx.set(key(id), { at, rows: g.rows, hrows: g.hrows }));
+        // il database tiene tre serie separate, aggiornate ognuna per conto suo: le prendo tutte e uso la più completa giorno per giorno
+        const ids = part.map(encodeURIComponent).join(","), end = ymd(new Date(hr.hi + DAY)), h0 = Math.max(hr.lo, Date.now() - 7 * DAY);
+        const get = (ts, from) => api(`/api/v2/stats/history/${ids}.json?locations=${LOCS}&qualities=${qp}&time-scale=${ts}&date=${ymd(new Date(from))}&end_date=${end}`);
+        const d24 = await get(24, hr.lo); if (server !== S.server) return;
+        const d6 = await get(6, hr.lo - DAY); if (server !== S.server) return;
+        const d1 = hr.hi > h0 ? await get(1, h0) : []; if (server !== S.server) return;
+        const at = Date.now(), got = new Map(part.map(id => [id, { d: [], s: [], h: [] }]));
+        for (const [rows, k] of [[d24, "d"], [d6, "s"], [d1, "h"]]) for (const r of rows) if (got.has(r.item_id)) got.get(r.item_id)[k].push(r);
+        got.forEach((g, id) => S.hx.set(key(id), { at, ...g }));
         part.forEach(id => inflight.delete("h" + key(id)));
         if (S.view === "sto") S.at = new Date();
         renderView();
@@ -790,10 +903,63 @@ table.hs em.tag, .hb em.tag { font-style: normal; font-size: 10px; font-weight: 
     S.shown = PAGE;
     store.set("flt2", S.f); renderFilters(); render(); ensure();
   }
-  let typing;
-  qIn.addEventListener("input", () => { S.f.text = qIn.value; $("#qx").hidden = !qIn.value; clearTimeout(typing); typing = setTimeout(() => applyFilters(), 280); });
-  qIn.addEventListener("keydown", e => { if (e.key === "Enter") { clearTimeout(typing); applyFilters(); } if (e.key === "Escape" && qIn.value) { e.preventDefault(); S.f.text = ""; applyFilters(); } });
-  $("#qx").addEventListener("click", () => { S.f.text = ""; applyFilters(); qIn.focus(); });
+  // ---------- ricerca: i suggerimenti si aprono sotto la barra, l'elenco cambia solo quando ne scegli uno ----------
+  const sgBox = $("#sugg"); let sg = { list: [], k: 0 };
+  const pathOf = x => { const c = CATS[x.c]; return c ? c[1] + (c[2][x.s] ? " › " + c[2][x.s][1] : "") : ""; };
+  const hl = (name, n) => { const ws = n.split(" ").filter(Boolean);
+    return name.split(/(\s+)/).map(p => { const np = norm(p), w = ws.find(w => np.startsWith(w)); return w ? `<mark>${esc(p.slice(0, w.length))}</mark>${esc(p.slice(w.length))}` : esc(p); }).join(""); };
+  function closeSugg() { sgBox.hidden = true; sgBox.innerHTML = ""; sg = { list: [], k: 0 }; qIn.setAttribute("aria-expanded", "false"); qIn.removeAttribute("aria-activedescendant"); }
+  function suggest() {
+    const n = norm(qIn.value), f = S.f;
+    if (n.length < 2 || f.pick) return closeSugg();
+    const all = search(n).filter(x => (f.cat < 0 || x.c === f.cat) && (f.sub < 0 || x.s === f.sub) && (f.typ < 0 || x.t === f.typ));
+    const list = all.slice(0, 8).sort((a, b) => a.c - b.c || a.s - b.s || a.tier - b.tier || a.it.localeCompare(b.it, "it"));
+    sg = { list, k: 0 };
+    sgBox.innerHTML = !list.length
+      ? `<div class="snone">Nessun oggetto con questo nome${f.cat >= 0 ? " nella categoria scelta" : ""}.</div>`
+      : list.map((x, i) => `<div class="sg${i === 0 ? " kb" : ""}" role="option" id="sg${i}" data-i="${i}" aria-selected="${i === 0}">${imgTag(x.base, 1)}
+          <div class="sgt"><span class="nm">${hl(x.it, n)}<span class="tb">T${x.tier}</span></span><span class="path">${esc(pathOf(x))}</span></div>
+          ${x.ench.length > 1 ? `<div class="en">${x.ench.map(e => `<button type="button" tabindex="-1" data-e="${e}" title="${esc(x.it)} .${e}">.${e}</button>`).join("")}</div>` : ""}</div>`).join("")
+        + `<div class="sfoot"><span class="hide-m"><kbd>↑</kbd> <kbd>↓</kbd> per scegliere · <kbd>Invio</kbd> apre il primo</span><span>${all.length > list.length ? `altri <b>${fmt(all.length - list.length)}</b> oggetti: continua a scrivere` : `${list.length === 1 ? "1 oggetto" : list.length + " oggetti"}`}</span></div>`;
+    sgBox.hidden = false; qIn.setAttribute("aria-expanded", "true"); if (list.length) qIn.setAttribute("aria-activedescendant", "sg0");
+  }
+  function moveSugg(d) {
+    if (!sg.list.length) return;
+    sg.k = (sg.k + d + sg.list.length) % sg.list.length;
+    sgBox.querySelectorAll(".sg").forEach((el, i) => { el.classList.toggle("kb", i === sg.k); el.setAttribute("aria-selected", i === sg.k); });
+    qIn.setAttribute("aria-activedescendant", "sg" + sg.k); $("#sg" + sg.k).scrollIntoView({ block: "nearest" });
+  }
+  function choose(i, e) {
+    const x = sg.list[i]; if (!x) return;
+    const ench = e != null && x.ench.includes(e) ? e : x.ench[0];
+    S.f = { ...S.f, text: x.it, pick: x.base, tier: x.tier, ench };
+    S.opened.add(variantId(x, ench));
+    closeSugg(); qIn.blur(); applyFilters();
+    requestAnimationFrame(() => $("section.card.res").scrollIntoView({ block: "start", behavior: "smooth" }));
+  }
+  function dropPick() { if (!S.f.pick) return false; S.f.pick = ""; S.f.tier = 0; S.f.ench = -1; return true; }
+  qIn.addEventListener("input", () => {
+    S.f.text = qIn.value; $("#qx").hidden = !qIn.value;
+    if (dropPick()) applyFilters();               // cambi il testo: l'oggetto scelto prima non vale più
+    suggest();
+  });
+  qIn.addEventListener("focus", () => { if (!S.f.pick) suggest(); });
+  qIn.addEventListener("blur", () => setTimeout(() => { if (document.activeElement !== qIn) closeSugg(); }, 120));
+  qIn.addEventListener("keydown", e => {
+    const open = !sgBox.hidden;
+    if (e.key === "ArrowDown" && open) { e.preventDefault(); moveSugg(1); }
+    else if (e.key === "ArrowUp" && open) { e.preventDefault(); moveSugg(-1); }
+    else if (e.key === "Enter") { e.preventDefault(); if (open && sg.list.length) choose(sg.k); }
+    else if (e.key === "Escape") { if (open) { e.preventDefault(); closeSugg(); } else if (qIn.value) { e.preventDefault(); S.f.text = ""; dropPick(); applyFilters(); } }
+  });
+  sgBox.addEventListener("mousedown", e => e.preventDefault());          // il clic non toglie il cursore dalla barra
+  sgBox.addEventListener("click", e => {
+    e.preventDefault(); e.stopPropagation();
+    const row = e.target.closest(".sg"); if (!row) return;
+    const b = e.target.closest("[data-e]");
+    choose(+row.dataset.i, b ? +b.dataset.e : null);
+  });
+  $("#qx").addEventListener("click", e => { e.preventDefault(); S.f.text = ""; dropPick(); closeSugg(); applyFilters(); qIn.focus(); });
   $("#fCat").addEventListener("change", e => { S.f.cat = +e.target.value; S.f.sub = -1; S.f.typ = -1; applyFilters(); });
   $("#fSub").addEventListener("change", e => { S.f.sub = +e.target.value; S.f.typ = -1; applyFilters(); });
   $("#fTyp").addEventListener("change", e => { S.f.typ = +e.target.value; applyFilters(); });
@@ -801,12 +967,16 @@ table.hs em.tag, .hb em.tag { font-style: normal; font-size: 10px; font-weight: 
   $("#fEnch").addEventListener("change", e => { S.f.ench = +e.target.value; applyFilters(); });
   $("#fQual").addEventListener("change", e => { S.f.qual = +e.target.value; applyFilters(); });
   $("#reset").addEventListener("click", () => { S.f = { ...NOF }; applyFilters(); });
+  $("#favBtn").addEventListener("click", () => {
+    S.f = { ...NOF, qual: S.f.qual }; closeSugg(); applyFilters();
+    requestAnimationFrame(() => { const top = $("section.card.res").getBoundingClientRect().top; if (top < 0 || top > innerHeight * .6) $("section.card.res").scrollIntoView({ block: "start", behavior: "smooth" }); });
+  });
   document.addEventListener("keydown", e => {
     if (e.key === "/" && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) { e.preventDefault(); qIn.focus(); qIn.select(); }
   });
   // mostra un oggetto preciso (dal confronto con le vendite o da un link #CODICE)
   function focusItem(item, e, q) {
-    S.f = { ...NOF, text: item.it, tier: item.tier, ench: e, qual: hasQuality(item.base) ? q || 1 : 1 };
+    S.f = { ...NOF, text: item.it, pick: item.base, tier: item.tier, ench: e, qual: hasQuality(item.base) ? q || 1 : 1 };
     S.opened.add(variantId(item, e));
     applyFilters();
     requestAnimationFrame(() => { const id = CSS.escape(variantId(item, e)); const c = document.querySelector(`.row8[data-row="${id}"], .icard[data-id="${id}"]`); (c || $("#cards")).scrollIntoView({ block: "center", behavior: "smooth" }); });
@@ -814,17 +984,20 @@ table.hs em.tag, .hb em.tag { font-style: normal; font-size: 10px; font-weight: 
 
   // ---------- in alto sui risultati: schede, spunte, periodo ----------
   const CHECK_SVG = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>`;
+  const STAR_D = "M10 1.8l2.5 5.1 5.6.8-4.1 4 1 5.6-5-2.7-5 2.7 1-5.6-4.1-4 5.6-.8z";
   const REFRESH_SVG = `<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 10a6 6 0 1 1-1.8-4.3"/><path d="M16 3v4h-4"/></svg>`;
   function renderBar() {
     document.querySelectorAll("#views [data-view]").forEach(b => { const on = b.dataset.view === S.view; b.classList.toggle("on", on); b.setAttribute("aria-selected", on); });
     const res = results();
-    const st = $("#stamp"); st.hidden = !S.busy && !S.at;
-    st.innerHTML = S.busy ? `<span class="spinner sm"></span>aggiorno…` : S.at ? `<i></i>aggiornato alle ${clock(S.at)} · ${SERVER_NAME[S.server]}` : "";
-    const b = $("#refresh"); b.disabled = !!S.busy || !res || !res.length; b.innerHTML = S.busy ? '<span class="spinner"></span>' : REFRESH_SVG;
+    const st = $("#stamp"); st.hidden = false; st.style.visibility = !S.busy && !S.at ? "hidden" : "";
+    st.classList.toggle("busy", !!S.busy);
+    setHTML(st, S.at ? `<i></i>aggiornato alle ${clock(S.at)} · ${esc(SERVER_NAME[S.server])}` : `<i></i>aggiorno i prezzi…`);
+    const b = $("#refresh"), want = S.busy ? "busy" : "idle"; b.disabled = !!S.busy || !res || !res.length;
+    if (b.dataset.st !== want) { b.dataset.st = want; b.innerHTML = S.busy ? '<span class="spinner"></span>' : REFRESH_SVG; }
     const ns = S.sel.size, allOn = res && res.length && res.every(r => S.sel.has(r.id)), someOn = res && res.some(r => S.sel.has(r.id));
-    $("#count").innerHTML = !res || !res.length || res.sel ? ""
-      : `<label class="ckall" title="Metti la spunta a tutti gli oggetti trovati"><span class="ckb"><input type="checkbox" id="selAll" ${allOn ? "checked" : ""}></span><span class="cnt">${res.length === 1 ? "Seleziona l'unico risultato" : `Seleziona tutti i ${fmt(res.length)} risultati`}</span></label>` +
-        (ns ? `<button type="button" class="selchip" data-act="showsel" title="Togli i filtri e mostra solo gli oggetti con la spunta">${CHECK_SVG}Vedi solo i ${fmt(ns)} con la spunta</button>` : "");
+    setHTML($("#count"), !res || !res.length || res.sel ? ""
+      : `<label class="ckall" title="${allOn ? "Togli dai preferiti tutti gli oggetti trovati" : "Aggiungi ai preferiti tutti gli oggetti trovati"}"><span class="ckb"><input type="checkbox" id="selAll" ${allOn ? "checked" : ""}></span><span class="cnt">${allOn ? (res.length === 1 ? "Nei preferiti" : "Tutti nei preferiti") : res.length === 1 ? "Aggiungi ai preferiti" : `Aggiungi tutti i ${fmt(res.length)} ai preferiti`}</span></label>`);
+    const fb = $("#favBtn"); $("#favN").textContent = fmt(ns); fb.classList.toggle("on", !!(res && res.sel)); fb.classList.toggle("zero", !ns);
     const sa = $("#selAll"); if (sa) sa.indeterminate = !allOn && !!someOn;
     renderTool();
   }
@@ -834,26 +1007,29 @@ table.hs em.tag, .hb em.tag { font-style: normal; font-size: 10px; font-weight: 
     const sig = !res || !res.length ? "" : S.view === "ora" ? "ora|" + S.ord : [h.p, h.from, h.to].join("|");
     if (el.dataset.sig === sig) return;            // non ridisegno mentre scegli una data
     el.dataset.sig = sig;
-    if (!sig) { el.innerHTML = ""; return; }
+    if (!sig) { setHTML(el, ""); return; }
     if (S.view === "ora") {
-      el.innerHTML = `<span class="lbl">Ordina per</span>
-        <div class="pill2" role="group" aria-label="Ordina i mercati"><button type="button" data-o="sell" class="${S.ord === "sell" ? "on" : ""}" aria-pressed="${S.ord === "sell"}" title="Per ogni oggetto la città dove lo metti in vendita al prezzo più alto"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 11V3M3.5 6.5 7 3l3.5 3.5"/></svg>Chi vende</button><button type="button" data-o="buy" class="${S.ord === "buy" ? "on" : ""}" aria-pressed="${S.ord === "buy"}" title="Per ogni oggetto la città dove lo compri subito al prezzo più basso"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M3.5 7.5 7 11l3.5-3.5"/></svg>Chi compra</button></div>`;
+      setHTML(el, `<span class="lbl">Ordina per</span>
+        <div class="pill2" role="group" aria-label="Ordina i mercati"><button type="button" data-o="sell" class="${S.ord === "sell" ? "on" : ""}" aria-pressed="${S.ord === "sell"}" title="Per ogni oggetto la città dove lo metti in vendita al prezzo più alto"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 11V3M3.5 6.5 7 3l3.5 3.5"/></svg>Chi vende</button><button type="button" data-o="buy" class="${S.ord === "buy" ? "on" : ""}" aria-pressed="${S.ord === "buy"}" title="Per ogni oggetto la città dove lo compri subito al prezzo più basso"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M3.5 7.5 7 11l3.5-3.5"/></svg>Chi compra</button></div>`);
       return;
     }
     const hr = histRange(), rg = h.p ? presetRange(h.p) : { from: h.from, to: h.to };
-    el.innerHTML = `<div class="hgrp"><span class="lbl">Periodo</span>
+    setHTML(el, `<div class="hgrp"><span class="lbl">Periodo</span>
       <div class="seg sm" role="group" aria-label="Periodo veloce">${PRESETS.map(p => `<button type="button" data-p="${p}" class="${h.p === p ? "on" : ""}" aria-pressed="${h.p === p}">${p === 1 ? "24 ore" : p + " giorni"}</button>`).join("")}</div>
       <div class="dbox${h.p ? "" : " on"}" title="Cambia le date per scegliere un periodo tuo">
-        <label class="dt">Dal <input type="date" id="dFrom" value="${esc(rg.from)}" max="${todayYmd()}"></label><span class="arr">→</span>
-        <label class="dt">Al <input type="date" id="dTo" value="${esc(rg.to)}" max="${todayYmd()}"></label>
+        <label class="dt"><span class="hide-m">Dal</span> <input type="date" id="dFrom" aria-label="Dal" value="${esc(rg.from)}" max="${todayYmd()}"></label><span class="arr">→</span>
+        <label class="dt"><span class="hide-m">Al</span> <input type="date" id="dTo" aria-label="Al" value="${esc(rg.to)}" max="${todayYmd()}"></label>
         <span class="dn">${h.p === 1 ? "ultime 24 ore" : h.p ? `${hr.days} giorni` : `personalizzato · ${hr.days} ${hr.days === 1 ? "giorno" : "giorni"}`}</span></div></div>
       <div class="hgrp vsw"><span class="lbl">Vista</span><div class="seg sm" role="group" aria-label="Vista">
-        <button type="button" data-hv="tab" class="${S.hv === "tab" ? "on" : ""}" aria-pressed="${S.hv === "tab"}"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M2 7h12M2 10h12M6 3v10"/></svg>Tabella</button>
-        <button type="button" data-hv="scala" class="${S.hv === "scala" ? "on" : ""}" aria-pressed="${S.hv === "scala"}"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M2 5h7M5 11h9"/><circle cx="6" cy="5" r="1.6" fill="currentColor"/><circle cx="10" cy="11" r="1.6" fill="currentColor"/></svg>Scala</button></div></div>
-      <span class="pernote">Vendite già concluse ${esc(hr.label)}, tutte insieme (ordini e vendite subito). <b>Minimo</b> e <b>massimo</b>: il prezzo medio ${hr.ts === 6 ? "della fascia di 6 ore" : "del giorno"} più basso e più alto.</span>`;
+        <button type="button" data-hv="tab" aria-label="Vista tabella" title="Tabella" class="${S.hv === "tab" ? "on" : ""}" aria-pressed="${S.hv === "tab"}"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M2 7h12M2 10h12M6 3v10"/></svg><span class="hide-m">Tabella</span></button>
+        <button type="button" data-hv="scala" aria-label="Vista scala" title="Scala" class="${S.hv === "scala" ? "on" : ""}" aria-pressed="${S.hv === "scala"}"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M2 5h7M5 11h9"/><circle cx="6" cy="5" r="1.6" fill="currentColor"/><circle cx="10" cy="11" r="1.6" fill="currentColor"/></svg><span class="hide-m">Scala</span></button></div></div>`);
   }
   function presetRange(p) { const t = utcMid(Date.now()); return { from: ymd(new Date(t - Math.max(p - 1, 1) * DAY)), to: ymd(new Date(t)) }; }
-  $("#views").addEventListener("click", e => { const b = e.target.closest("[data-view]"); if (!b || b.dataset.view === S.view) return; S.view = b.dataset.view; store.set("view", S.view); render(); ensure(); });
+  $("#views").addEventListener("click", e => {
+    const b = e.target.closest("[data-view]"); if (!b || b.dataset.view === S.view) return;
+    const top = $("section.card.res").getBoundingClientRect().top; if (top < 0) window.scrollBy(0, top - 10);   // la scheda resta ferma sotto il dito
+    S.view = b.dataset.view; store.set("view", S.view); render(); ensure();
+  });
   $("#refresh").addEventListener("click", () => ensure(true));
   function setPeriod(p) {
     S.hp.p = p; Object.assign(S.hp, presetRange(p));
@@ -868,14 +1044,12 @@ table.hs em.tag, .hb em.tag { font-style: normal; font-size: 10px; font-weight: 
     if (e.target.id !== "dFrom" && e.target.id !== "dTo" || !parseYmd(e.target.value)) return;
     if (S.hp.p) Object.assign(S.hp, presetRange(S.hp.p));      // parto dalle date del periodo veloce
     S.hp.p = 0; S.hp[e.target.id === "dFrom" ? "from" : "to"] = e.target.value;
-    store.set("hp", S.hp); $("#perbar").dataset.sig = [S.hp.p, S.hp.from, S.hp.to].join("|");
-    renderView(); ensure();
-    const note = $("#perbar .pernote"); if (note) { $("#perbar").dataset.sig = ""; const a = document.activeElement && document.activeElement.id; renderTool(); if (a) { const x = document.getElementById(a); if (x) x.focus(); } }
+    store.set("hp", S.hp); renderTool(); renderView(); ensure();
   });
   $("#count").addEventListener("change", e => {
     if (e.target.id !== "selAll") return;
     const res = results() || [], on = e.target.checked;
-    if (on && res.length > 150 && !confirm(`Metto la spunta a tutti i ${fmt(res.length)} oggetti trovati?`)) { e.target.checked = false; return; }
+    if (on && res.length > 150 && !confirm(`Aggiungo ai preferiti tutti i ${fmt(res.length)} oggetti trovati?`)) { e.target.checked = false; return; }
     res.forEach(r => on ? S.sel.add(r.id) : S.sel.delete(r.id)); saveSel(); render();
   });
   $("#count").addEventListener("click", e => {
@@ -893,7 +1067,7 @@ table.hs em.tag, .hb em.tag { font-style: normal; font-size: 10px; font-weight: 
   const na = `<span class="na">—</span>`, spin = txt => `<div class="cmsg"><span class="spinner"></span>&nbsp; ${txt}</div>`;
   function cardHead(r, extra = "") {
     const q = rowQ(r), on = S.sel.has(r.id);
-    return `<div class="ihead"><label class="ckb" title="${on ? "Togli la spunta" : "Metti la spunta: quando togli i filtri vedi solo gli oggetti con la spunta"}"><input type="checkbox" data-sel="${esc(r.id)}"${on ? " checked" : ""} aria-label="Spunta ${esc(r.item.it)}"></label>
+    return `<div class="ihead"><label class="ckb" title="${on ? "Togli dai preferiti" : "Aggiungi ai preferiti"}"><input type="checkbox" data-sel="${esc(r.id)}"${on ? " checked" : ""} aria-label="Preferito: ${esc(r.item.it)}"></label>
       ${imgTag(r.id, q || 1)}<div class="nmb"><b>${esc(r.item.it)}</b>${r.item.tier ? ` <span class="tierb">T${r.item.tier}.${r.e}</span>` : ""}${q ? ` <span class="qual">${QUAL[q]}</span>` : r.withQ ? ` <span class="qual">qualsiasi qualità</span>` : ""}</div>${extra}</div>`;
   }
   const isStale = d => d && Date.now() - d > 12 * 3600e3;          // arancione solo oltre le 12 ore
@@ -923,12 +1097,12 @@ table.hs em.tag, .hb em.tag { font-style: normal; font-size: 10px; font-weight: 
     const city = best ? `${flagSvg(best.c.color)}${esc(best.c.name)}` : "";
     const body = !p ? (inflight.has("p" + r.id) ? `<span class="na"><span class="spinner sm"></span>chiedo i prezzi…</span>` : `<span class="na">prezzi non ancora scaricati</span>`)
       : !rows ? `<span class="na">nessun prezzo nelle ultime 24 ore</span>` : miniTrack(best);
-    return `<div class="row8${open ? " on" : ""}" data-row="${esc(r.id)}">
-      <label class="ckb" title="${on ? "Togli la spunta" : "Metti la spunta: quando togli i filtri vedi solo gli oggetti con la spunta"}"><input type="checkbox" data-sel="${esc(r.id)}"${on ? " checked" : ""} aria-label="Spunta ${esc(r.item.it)}"></label>
+    return `<div class="row8${open ? " on" : ""}" data-k="r:${esc(r.id)}" data-row="${esc(r.id)}">
+      <label class="ckb" title="${on ? "Togli dai preferiti" : "Aggiungi ai preferiti"}"><input type="checkbox" data-sel="${esc(r.id)}"${on ? " checked" : ""} aria-label="Preferito: ${esc(r.item.it)}"></label>
       ${imgTag(r.id, q || 1)}<span class="nm">${esc(r.item.it)}${r.item.tier ? `<span class="tierb">T${r.item.tier}.${r.e}</span>` : ""}${q ? `<span class="qual">${QUAL[q]}</span>` : r.withQ ? `<span class="qual">qualsiasi qualità</span>` : ""}</span>
       <span class="cy">${city}</span><div class="tkw">${city ? `<span class="cy2">${city}</span>` : ""}${body}</div>
       <button type="button" class="chv" data-open="${esc(r.id)}" aria-expanded="${open}" title="${open ? "Chiudi" : "Tutti i mercati"}" aria-label="${open ? "Chiudi" : "Mostra tutti i mercati"}">${CHEV}</button></div>
-      ${open && rows ? ladder(rows) : ""}`;
+      ${open && rows ? ladder(rows).replace('<div class="exp8">', `<div class="exp8" data-k="x:${esc(r.id)}">`) : ""}`;
   }
   // riga aperta: tutti i mercati sulla stessa scala, con l'età sotto ogni prezzo
   function ladder(rows) {
@@ -970,14 +1144,29 @@ table.hs em.tag, .hb em.tag { font-style: normal; font-size: 10px; font-weight: 
     const day = same(d, now) ? "oggi" : same(d, new Date(now - 864e5)) ? "ieri" : d.toLocaleDateString("it-IT", { day: "numeric", month: "short" });
     return withHour ? `${day} ${String(d.getHours()).padStart(2, "0")}:00` : day;
   };
+  const cardMem = new Map();
+  function skeleton(V) {
+    const bar = w => `<span class="sk" style="width:${w}px"></span>`;
+    return V === "A"
+      ? `<table class="hs wide skel"><colgroup><col style="width:24%"><col><col><col><col><col><col></colgroup><thead><tr><th class="l">Mercato</th><th>Pezzi venduti</th><th>Prezzo medio</th><th>Netto dopo le tasse</th><th>Minimo</th><th>Massimo</th><th>Ultimo dato</th></tr></thead><tbody>
+        ${CITIES.map(c => `<tr><td><span class="flagc">${flagSvg(c.color)}${esc(c.name)}</span><small>&nbsp;</small></td><td data-l="Venduti">${bar(34)}</td><td data-l="Prezzo medio"><b>${bar(52)}</b></td><td data-l="Netto">${bar(44)}</td><td data-l="Minimo">${bar(44)}</td><td data-l="Massimo">${bar(44)}</td><td data-l="Ultimo dato">${bar(58)}<small>&nbsp;</small></td></tr>`).join("")}</tbody></table>`
+      : `<div class="hb skel"><div class="hbh"><span class="l">Mercato</span><span>Venduti</span><span class="sc">Minimo · <b>prezzo medio</b> · massimo</span><span>Ultimo dato</span></div>
+        ${CITIES.map(c => `<div class="hbr"><span class="l"><span class="flagc">${flagSvg(c.color)}${esc(c.name)}</span></span><span class="n">${bar(30)}<small>&nbsp;</small></span><span class="trk"></span><span class="ld">${bar(56)}<small>&nbsp;</small></span></div>`).join("")}</div>`;
+  }
   function stoCard(r) {
-    const st = histStats(r), hr = histRange(), V = S.hv === "scala" ? "B" : "A";
-    let body;
-    if (!st) body = inflight.has("h" + hKey(r.id)) ? spin("Carico lo storico…") : `<div class="cmsg">Storico non ancora scaricato: premi il tasto per aggiornare.</div>`;
+    const st = histStats(r), hr = histRange(), V = S.hv === "scala" ? "B" : "A", mk = r.id + "|" + V + "|" + qParam();
+    let body, cls = "";
+    if (!st) {
+      const loading = inflight.has("h" + hKey(r.id)) || S.busy;
+      if (loading && cardMem.has(mk)) { body = cardMem.get(mk); cls = " stale"; }
+      else if (loading) { body = skeleton(V); cls = " skel"; }
+      else body = `<div class="cmsg">Storico non ancora scaricato: premi il tasto per aggiornare.</div>`;
+      return `<article class="icard${cls}" data-k="c:${esc(r.id)}" data-id="${esc(r.id)}">${cardHead(r, cls ? `<span class="ldg"><span class="spinner sm"></span>aggiorno</span>` : "")}${body}</article>`;
+    }
     else if (!CITIES.some(c => st[c.key])) body = `<div class="cmsg">Nessuna vendita registrata ${esc(hr.label)}.</div>`;
     else {
       const rows = CITIES.map(c => ({ c, bm: c.key === "blackmarket", s: st[c.key] })).sort((a, b) => (a.s == null) - (b.s == null) || a.bm - b.bm || (b.s ? b.s.avg : 0) - (a.s ? a.s.avg : 0));
-      const days = x => hr.ts === 24 && hr.days > 1 ? `<small>in ${x.s.days} ${x.s.days === 1 ? "giorno" : "giorni"} su ${hr.days}</small>` : "";
+      const days = x => hr.days > 1 ? `<small>in ${x.s.days} ${x.s.days === 1 ? "giorno" : "giorni"} su ${hr.days}</small>` : "";
       const last = x => { const L = x.s.last, recent = hr.hi > Date.now() - DAY, old = recent && Date.now() - L.t > 12 * 3600e3;
         return `<span class="${old ? "old" : ""}">${lastTxt(L.t, L.h)}${recent ? `<small>${L.h ? ageText(new Date(L.t)) : "solo la data"}</small>` : ""}</span>`; };
       const city = (x, i) => `<span class="flagc">${flagSvg(x.c.color)}${esc(x.c.name)}</span>${i === 0 ? `<em class="tag">prezzo medio più alto</em>` : ""}`;
@@ -1002,29 +1191,32 @@ table.hs em.tag, .hb em.tag { font-style: normal; font-size: 10px; font-weight: 
               <span class="ld">${last(x)}</span></div>`).join("")}</div>`;
       }
     }
-    return `<article class="icard" data-id="${esc(r.id)}">${cardHead(r)}${body}</article>`;
+    cardMem.set(mk, body);
+    return `<article class="icard" data-k="c:${esc(r.id)}" data-id="${esc(r.id)}">${cardHead(r)}${body}</article>`;
   }
   function emptyHtml() {
     const res = results();
-    if (!res) return `<div class="hint">Scegli una categoria nei filtri qui sopra, oppure scrivi il nome di un oggetto.</div>`;
-    return `<div class="empty"><h3>Nessun oggetto</h3><p>${res.sel ? "Nessuno degli oggetti con la spunta ha questo tier o incantamento." : "Nessun oggetto corrisponde a questi filtri. Prova con meno parole o togli qualche filtro."}</p><button type="button" class="btn soft" data-act="reset">Azzera i filtri</button></div>`;
+    if (!res) return `<div class="hint">Scegli una categoria nei filtri qui sopra, oppure scrivi il nome di un oggetto.<br><span class="sub">Tocca la ☆ di un oggetto per salvarlo nei preferiti: li ritrovi tutti con il pulsante «★ Preferiti».</span></div>`;
+    return `<div class="empty"><h3>Nessun oggetto</h3><p>${res.sel ? "Nessuno dei tuoi preferiti ha questo tier o incantamento." : "Nessun oggetto corrisponde a questi filtri. Prova con meno parole o togli qualche filtro."}</p><button type="button" class="btn soft" data-act="reset">Azzera i filtri</button></div>`;
   }
   function renderView() {
     const res = results(), box = $("#cards");
-    $("#notice").innerHTML = S.err ? `<div class="notice err">${esc(S.err)} <button type="button" class="link" data-act="retry">Riprova</button></div>` : "";
-    if (!res || !res.length) { box.classList.add("solo"); box.innerHTML = emptyHtml(); $("#more").innerHTML = ""; return; }
+    setHTML($("#notice"), S.err ? `<div class="notice err">${esc(S.err)} <button type="button" class="link" data-act="retry">Riprova</button></div>` : "");
+    if (!res || !res.length) { box.classList.add("solo"); setHTML(box, emptyHtml()); setHTML($("#more"), ""); return; }
     box.classList.remove("solo"); box.classList.add("one");
-    box.innerHTML = S.view === "ora" ? `<div class="list">${visible().map(oraRow).join("")}</div>` : visible().map(stoCard).join("");
-    const left = res.length - S.shown;
-    $("#more").innerHTML = `<span class="sub">${S.view === "ora"
+    const head = res.sel ? `<div class="favhead" data-k="favhead"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="${STAR_D}"/></svg>I tuoi preferiti <small>${res.length === 1 ? "1 oggetto" : fmt(res.length) + " oggetti"} · restano salvati in questo browser</small></div>` : "";
+    setHTML(box, head + (S.view === "ora" ? `<div class="list" data-k="list">${visible().map(oraRow).join("")}</div>` : visible().map(stoCard).join("")));
+    const left = res.length - S.shown, hr = histRange();
+    setHTML($("#more"), `<span class="sub">${S.view === "ora"
       ? `<i class="dot-b"></i>chi compra paga: lo vendi subito a questo prezzo · <i class="dot-s"></i>chi vende chiede: lo compri subito a questo prezzo · sotto ogni prezzo quando è stato visto, <span class="old">in arancione</span> se più di 12 ore fa. Apri una riga per vedere tutti i mercati.`
-      : `Netto: quanto ti resterebbe vendendo al prezzo medio con un ordine (al Black Market: vendendo subito).`}</span>
-      ${left > 0 ? `<button type="button" class="btn soft" data-act="more">Mostra altri ${Math.min(PAGE, left)} · ${fmt(S.shown)} di ${fmt(res.length)}</button>` : ""}`;
+      : `Vendite già concluse ${esc(hr.label)}, tutte insieme (ordini e vendite subito). <b>Minimo</b> e <b>massimo</b>: il prezzo medio dell'ora più bassa e più alta (oltre i 7 giorni circa, delle 6 ore o del giorno): il database non salva le singole vendite. <b>Netto</b>: quanto ti resterebbe vendendo al prezzo medio con un ordine (al Black Market: vendendo subito).`}</span>
+      ${left > 0 ? `<button type="button" class="btn soft" data-act="more">Mostra altri ${Math.min(PAGE, left)} · ${fmt(S.shown)} di ${fmt(res.length)}</button>` : ""}`);
   }
+
   function render() { renderBar(); renderView(); }
   $("#cards").addEventListener("click", e => {
     if (e.target.closest('[data-act="reset"]')) { S.f = { ...NOF }; applyFilters(); return; }
-    if (e.target.closest(".ckb")) return;                     // la spunta non apre la riga
+    if (e.target.closest(".ckb")) return;                     // la stella non apre la riga
     const row = e.target.closest("[data-open], .row8");
     if (row) { const id = row.dataset.open || row.dataset.row; S.opened.has(id) ? S.opened.delete(id) : S.opened.add(id); renderView(); }
   });
