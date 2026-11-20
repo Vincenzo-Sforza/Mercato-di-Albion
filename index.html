@@ -505,6 +505,18 @@ table.hs.skel td b { display: block; } table.hs.skel td b .sk { height: 13px; }
   .filters .qrow { gap: 8px; }
   .favbtn { padding: 0 12px; gap: 6px; } .favbtn .fl { display: none; }
 }
+
+/* storico a righe apribili */
+.tk.hs8 .mid { display: flex; flex-direction: column; align-items: stretch; gap: 3px; min-width: 0; }
+.tk.hs8 .mid > small { text-align: center; font-size: 11px; font-weight: 600; color: var(--faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tk.hs8 .mid > small .old { color: #A0640E; }
+.tk.hs8 .bar i.a { top: 1px; width: 11px; height: 11px; margin-left: -5.5px; background: #FBF3E2; border: 2.5px solid #5a3a1c; box-shadow: 0 1px 2px rgba(0,0,0,.3); z-index: 1; }
+.tk.hs8 .bar span { z-index: 2; }
+.row8.stale .tkw, .row8.stale .cy, .exp8.stale > * { opacity: .45; transition: opacity .15s; }
+.exp8.sto { padding: 0; background: rgba(201,149,63,.04); }
+.exp8.sto table.hs.wide, .exp8.sto .hb { background: none; }
+.exp8.sto .cmsg { padding: 14px 18px; }
+@media (max-width: 720px) { .tk.hs8 .pz { display: none; } .tk.hs8 .bar span { padding: 0 6px; } }
 </style>
 </head>
 <body>
@@ -666,7 +678,7 @@ table.hs.skel td b { display: block; } table.hs.skel td b .sk { height: 13px; }
     view: store.get("view", "ora") === "sto" ? "sto" : "ora",
     hp: { p: 30, from: "", to: "", ...store.get("hp", {}) }, shown: PAGE,
     px: new Map(), hx: new Map(), busy: 0, at: null, err: null,
-    ord: store.get("ordine", "sell") === "buy" ? "buy" : "sell", opened: new Set(), hv: store.get("hv", "tab") === "scala" ? "scala" : "tab"
+    ord: store.get("ordine", "sell") === "buy" ? "buy" : "sell", opened: new Set(), openedH: new Set(), hv: store.get("hv", "tab") === "scala" ? "scala" : "tab"
   };
   S.sel = new Set((store.get("sel", null) ?? store.get("fav", []).map(t => String(t).split(":")[0])).filter(id => parseVariant(id)));
   S.selVer = 0;
@@ -768,9 +780,9 @@ table.hs.skel td b { display: block; } table.hs.skel td b .sk { height: 13px; }
       for (const day of new Set([...P[0].keys(), ...P[1].keys(), ...P[2].keys()])) {
         let best = null, bn = 0;                              // pezzi e media: la serie con più vendite quel giorno (a parità vince quella per giorno)
         for (const m of P) { const l = m.get(day); if (!l) continue; const n = l.reduce((a, z) => a + z.n, 0); if (n > bn) { bn = n; best = l; } }
-        for (const z of best) pts.push({ t: z.t, v: z.s / z.n, n: z.n });
-        const fine = P[2].get(day) || P[1].get(day) || P[0].get(day);   // minimo e massimo: la serie più fine che c'è (ora, poi 6 ore, poi giorno)
-        for (const z of fine) ext.push(z.s / z.n);
+        for (const z of best) { pts.push({ t: z.t, v: z.s / z.n, n: z.n }); ext.push(z.s / z.n); }
+        const fine = P[2].get(day) || P[1].get(day) || P[0].get(day);   // minimo e massimo: anche la serie più fine (ora, poi 6 ore), senza contare nulla due volte
+        if (fine !== best) for (const z of fine) ext.push(z.s / z.n);
       }
       if (!pts.length) { out[c.key] = null; continue; }
       pts.sort((a, b) => a.t - b.t);
@@ -933,7 +945,7 @@ table.hs.skel td b { display: block; } table.hs.skel td b .sk { height: 13px; }
     const x = sg.list[i]; if (!x) return;
     const ench = e != null && x.ench.includes(e) ? e : x.ench[0];
     S.f = { ...S.f, text: x.it, pick: x.base, tier: x.tier, ench };
-    S.opened.add(variantId(x, ench));
+    S.opened.add(variantId(x, ench)); S.openedH.add(variantId(x, ench));
     closeSugg(); qIn.blur(); applyFilters();
     requestAnimationFrame(() => $("section.card.res").scrollIntoView({ block: "start", behavior: "smooth" }));
   }
@@ -977,7 +989,7 @@ table.hs.skel td b { display: block; } table.hs.skel td b .sk { height: 13px; }
   // mostra un oggetto preciso (dal confronto con le vendite o da un link #CODICE)
   function focusItem(item, e, q) {
     S.f = { ...NOF, text: item.it, pick: item.base, tier: item.tier, ench: e, qual: hasQuality(item.base) ? q || 1 : 1 };
-    S.opened.add(variantId(item, e));
+    S.opened.add(variantId(item, e)); S.openedH.add(variantId(item, e));
     applyFilters();
     requestAnimationFrame(() => { const id = CSS.escape(variantId(item, e)); const c = document.querySelector(`.row8[data-row="${id}"], .icard[data-id="${id}"]`); (c || $("#cards")).scrollIntoView({ block: "center", behavior: "smooth" }); });
   }
@@ -1091,6 +1103,11 @@ table.hs.skel td b { display: block; } table.hs.skel td b .sk { height: 13px; }
     const d = x.buy != null && x.sell != null ? x.sell - x.buy : null;
     return `<div class="tk">${pb}<span class="bar${d == null ? " half" + (x.buy != null ? " ob" : " os") : ""}">${x.buy != null ? '<i class="b"></i>' : ""}${d != null ? `<span>Δ ${d < 0 ? "−" : ""}${fmt(Math.abs(d))}</span>` : ""}${x.sell != null ? '<i class="s"></i>' : ""}</span>${ps}</div>`;
   }
+  function rowStart(r) {
+    const q = rowQ(r), on = S.sel.has(r.id);
+    return `<label class="ckb" title="${on ? "Togli dai preferiti" : "Aggiungi ai preferiti"}"><input type="checkbox" data-sel="${esc(r.id)}"${on ? " checked" : ""} aria-label="Preferito: ${esc(r.item.it)}"></label>
+      ${imgTag(r.id, q || 1)}<span class="nm">${esc(r.item.it)}${r.item.tier ? `<span class="tierb">T${r.item.tier}.${r.e}</span>` : ""}${q ? `<span class="qual">${QUAL[q]}</span>` : r.withQ ? `<span class="qual">qualsiasi qualità</span>` : ""}</span>`;
+  }
   function oraRow(r) {
     const q = rowQ(r), on = S.sel.has(r.id), open = S.opened.has(r.id), p = S.px.get(r.id), rows = marketRows(r);
     const best = rows && rows[0] && (rows[0].sell != null || rows[0].buy != null) ? rows[0] : null;
@@ -1098,8 +1115,7 @@ table.hs.skel td b { display: block; } table.hs.skel td b .sk { height: 13px; }
     const body = !p ? (inflight.has("p" + r.id) ? `<span class="na"><span class="spinner sm"></span>chiedo i prezzi…</span>` : `<span class="na">prezzi non ancora scaricati</span>`)
       : !rows ? `<span class="na">nessun prezzo nelle ultime 24 ore</span>` : miniTrack(best);
     return `<div class="row8${open ? " on" : ""}" data-k="r:${esc(r.id)}" data-row="${esc(r.id)}">
-      <label class="ckb" title="${on ? "Togli dai preferiti" : "Aggiungi ai preferiti"}"><input type="checkbox" data-sel="${esc(r.id)}"${on ? " checked" : ""} aria-label="Preferito: ${esc(r.item.it)}"></label>
-      ${imgTag(r.id, q || 1)}<span class="nm">${esc(r.item.it)}${r.item.tier ? `<span class="tierb">T${r.item.tier}.${r.e}</span>` : ""}${q ? `<span class="qual">${QUAL[q]}</span>` : r.withQ ? `<span class="qual">qualsiasi qualità</span>` : ""}</span>
+      ${rowStart(r)}
       <span class="cy">${city}</span><div class="tkw">${city ? `<span class="cy2">${city}</span>` : ""}${body}</div>
       <button type="button" class="chv" data-open="${esc(r.id)}" aria-expanded="${open}" title="${open ? "Chiudi" : "Tutti i mercati"}" aria-label="${open ? "Chiudi" : "Mostra tutti i mercati"}">${CHEV}</button></div>
       ${open && rows ? ladder(rows).replace('<div class="exp8">', `<div class="exp8" data-k="x:${esc(r.id)}">`) : ""}`;
@@ -1153,18 +1169,9 @@ table.hs.skel td b { display: block; } table.hs.skel td b .sk { height: 13px; }
       : `<div class="hb skel"><div class="hbh"><span class="l">Mercato</span><span>Venduti</span><span class="sc">Minimo · <b>prezzo medio</b> · massimo</span><span>Ultimo dato</span></div>
         ${CITIES.map(c => `<div class="hbr"><span class="l"><span class="flagc">${flagSvg(c.color)}${esc(c.name)}</span></span><span class="n">${bar(30)}<small>&nbsp;</small></span><span class="trk"></span><span class="ld">${bar(56)}<small>&nbsp;</small></span></div>`).join("")}</div>`;
   }
-  function stoCard(r) {
-    const st = histStats(r), hr = histRange(), V = S.hv === "scala" ? "B" : "A", mk = r.id + "|" + V + "|" + qParam();
-    let body, cls = "";
-    if (!st) {
-      const loading = inflight.has("h" + hKey(r.id)) || S.busy;
-      if (loading && cardMem.has(mk)) { body = cardMem.get(mk); cls = " stale"; }
-      else if (loading) { body = skeleton(V); cls = " skel"; }
-      else body = `<div class="cmsg">Storico non ancora scaricato: premi il tasto per aggiornare.</div>`;
-      return `<article class="icard${cls}" data-k="c:${esc(r.id)}" data-id="${esc(r.id)}">${cardHead(r, cls ? `<span class="ldg"><span class="spinner sm"></span>aggiorno</span>` : "")}${body}</article>`;
-    }
-    else if (!CITIES.some(c => st[c.key])) body = `<div class="cmsg">Nessuna vendita registrata ${esc(hr.label)}.</div>`;
-    else {
+  const rowMem = new Map();
+  function stoBody(r, st, hr, V) {
+    let body;
       const rows = CITIES.map(c => ({ c, bm: c.key === "blackmarket", s: st[c.key] })).sort((a, b) => (a.s == null) - (b.s == null) || a.bm - b.bm || (b.s ? b.s.avg : 0) - (a.s ? a.s.avg : 0));
       const days = x => hr.days > 1 ? `<small>in ${x.s.days} ${x.s.days === 1 ? "giorno" : "giorni"} su ${hr.days}</small>` : "";
       const last = x => { const L = x.s.last, recent = hr.hi > Date.now() - DAY, old = recent && Date.now() - L.t > 12 * 3600e3;
@@ -1190,10 +1197,35 @@ table.hs.skel td b { display: block; } table.hs.skel td b .sk { height: 13px; }
                 <span class="lb ag" style="left:${pos(x.s.avg)}%"><b>${fmt(x.s.avg)}</b><small>netto ${fmt(x.bm ? netNow(x.s.avg) : netOrder(x.s.avg))}</small></span></span>
               <span class="ld">${last(x)}</span></div>`).join("")}</div>`;
       }
-    }
-    cardMem.set(mk, body);
-    return `<article class="icard" data-k="c:${esc(r.id)}" data-id="${esc(r.id)}">${cardHead(r)}${body}</article>`;
+    return body;
   }
+  function stoSum(x, hr) {                       // la riga chiusa: minimo — media — massimo della città migliore
+    const L = x.s.last, recent = hr.hi > Date.now() - DAY, old = recent && Date.now() - L.t > 12 * 3600e3;
+    const pos = x.s.max > x.s.min ? (x.s.avg - x.s.min) / (x.s.max - x.s.min) * 100 : 50;
+    return `<div class="tk hs8"><span class="pv b"><span class="p">${fmt(x.s.min)}</span><small>minimo</small></span>
+      <span class="mid"><span class="bar"><i class="b"></i><i class="a" style="left:calc(6px + (100% - 12px) * ${(pos / 100).toFixed(3)})"></i><span><span class="hide-m">media </span>${fmt(x.s.avg)}</span><i class="s"></i></span>
+        <small><span class="pz">${fmt(x.s.n)} pezzi · </span><span class="${old ? "old" : ""}">${lastTxt(L.t, L.h)}</span></small></span>
+      <span class="pv s"><span class="p">${fmt(x.s.max)}</span><small>massimo</small></span></div>`;
+  }
+  function stoRow(r) {
+    const st = histStats(r), hr = histRange(), V = S.hv === "scala" ? "B" : "A", mk = r.id + "|" + V + "|" + qParam(), open = S.openedH.has(r.id);
+    const loading = inflight.has("h" + hKey(r.id)) || S.busy;
+    let body, city = "", sum, cls = "";
+    if (st) {
+      const live = CITIES.filter(c => st[c.key]).sort((a, b) => (a.key === "blackmarket") - (b.key === "blackmarket") || st[b.key].avg - st[a.key].avg);
+      if (live.length) { body = stoBody(r, st, hr, V); city = `${flagSvg(live[0].color)}${esc(live[0].name)}`; sum = stoSum({ c: live[0], s: st[live[0].key] }, hr); }
+      else { body = `<div class="cmsg">Nessuna vendita registrata ${esc(hr.label)}.</div>`; sum = `<span class="na">nessuna vendita ${esc(hr.label)}</span>`; }
+      rowMem.set(mk, { body, city, sum });
+    } else if (loading && rowMem.has(mk)) { ({ body, city, sum } = rowMem.get(mk)); cls = " stale"; }
+    else if (loading) { body = skeleton(V); sum = `<span class="na"><span class="spinner sm"></span>carico lo storico…</span>`; }
+    else { body = `<div class="cmsg">Storico non ancora scaricato: premi il tasto per aggiornare.</div>`; sum = `<span class="na">storico non ancora scaricato</span>`; }
+    return `<div class="row8 h8${open ? " on" : ""}${cls}" data-k="r:${esc(r.id)}" data-row="${esc(r.id)}">
+      ${rowStart(r)}
+      <span class="cy">${city}</span><div class="tkw">${city ? `<span class="cy2">${city}</span>` : ""}${sum}</div>
+      <button type="button" class="chv" data-open="${esc(r.id)}" aria-expanded="${open}" title="${open ? "Chiudi" : "Tutti i mercati"}" aria-label="${open ? "Chiudi" : "Mostra tutti i mercati"}">${CHEV}</button>
+    </div>${open ? `<div class="exp8 sto${cls}" data-k="x:${esc(r.id)}">${body}</div>` : ""}`;
+  }
+
   function emptyHtml() {
     const res = results();
     if (!res) return `<div class="hint">Scegli una categoria nei filtri qui sopra, oppure scrivi il nome di un oggetto.<br><span class="sub">Tocca la ☆ di un oggetto per salvarlo nei preferiti: li ritrovi tutti con il pulsante «★ Preferiti».</span></div>`;
@@ -1205,7 +1237,7 @@ table.hs.skel td b { display: block; } table.hs.skel td b .sk { height: 13px; }
     if (!res || !res.length) { box.classList.add("solo"); setHTML(box, emptyHtml()); setHTML($("#more"), ""); return; }
     box.classList.remove("solo"); box.classList.add("one");
     const head = res.sel ? `<div class="favhead" data-k="favhead"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="${STAR_D}"/></svg>I tuoi preferiti <small>${res.length === 1 ? "1 oggetto" : fmt(res.length) + " oggetti"} · restano salvati in questo browser</small></div>` : "";
-    setHTML(box, head + (S.view === "ora" ? `<div class="list" data-k="list">${visible().map(oraRow).join("")}</div>` : visible().map(stoCard).join("")));
+    setHTML(box, head + (S.view === "ora" ? `<div class="list" data-k="list">${visible().map(oraRow).join("")}</div>` : `<div class="list" data-k="list">${visible().map(stoRow).join("")}</div>`));
     const left = res.length - S.shown, hr = histRange();
     setHTML($("#more"), `<span class="sub">${S.view === "ora"
       ? `<i class="dot-b"></i>chi compra paga: lo vendi subito a questo prezzo · <i class="dot-s"></i>chi vende chiede: lo compri subito a questo prezzo · sotto ogni prezzo quando è stato visto, <span class="old">in arancione</span> se più di 12 ore fa. Apri una riga per vedere tutti i mercati.`
@@ -1218,7 +1250,7 @@ table.hs.skel td b { display: block; } table.hs.skel td b .sk { height: 13px; }
     if (e.target.closest('[data-act="reset"]')) { S.f = { ...NOF }; applyFilters(); return; }
     if (e.target.closest(".ckb")) return;                     // la stella non apre la riga
     const row = e.target.closest("[data-open], .row8");
-    if (row) { const id = row.dataset.open || row.dataset.row; S.opened.has(id) ? S.opened.delete(id) : S.opened.add(id); renderView(); }
+    if (row) { const id = row.dataset.open || row.dataset.row, set = S.view === "sto" ? S.openedH : S.opened; set.has(id) ? set.delete(id) : set.add(id); renderView(); }
   });
   $("#cards").addEventListener("change", e => { const c = e.target.closest("input[data-sel]"); if (c) toggleSel(c.dataset.sel, c.checked); });
   $("#notice").addEventListener("click", e => { if (e.target.closest('[data-act="retry"]')) ensure(true); });
