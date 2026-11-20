@@ -285,11 +285,6 @@ i.dot-b { background: #B8402F; } i.dot-s { background: #3D8A4A; }
 .empty { padding: 26px 22px 30px; text-align: center; color: var(--muted); }
 .empty h3 { font-family: var(--serif); font-size: 17px; letter-spacing: .04em; color: var(--ink); margin: 0 0 4px; }
 .empty p { margin: 0 0 18px; }
-.cats { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; text-align: left; }
-.cat { display: flex; align-items: center; gap: 9px; padding: 7px 9px; min-height: 54px; text-align: left; border-radius: 10px; border: 1px solid rgba(90,58,28,.28); background: rgba(255,250,235,.4); font-weight: 700; font-size: 12.5px; line-height: 1.25; color: var(--ink); min-width: 0; }
-.cat span { min-width: 0; }
-.cat:hover { border-color: var(--acc); background: rgba(255,250,235,.7); }
-.cat .ico { width: 34px; height: 34px; }
 .more:empty { display: none; }
 .more { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 14px 18px 18px; }
 .more .sub { margin: 0; }
@@ -340,7 +335,6 @@ footer a { color: #E0B55E; }
   .search-box kbd { display: none; }
   .hide-m { display: none; }
   .only-m { display: inline; }
-  .cats { grid-template-columns: 1fr 1fr; }
   .empty { padding: 20px 14px 24px; }
   .vhead { padding: 0 14px; } .vtabs { gap: 22px; } .vt { padding: 16px 0 12px; } .vt b { font-size: 16px; } .vt small { font-size: 11px; }
   .vmeta { padding: 8px 0 10px; order: -1; width: 100%; justify-content: space-between; }
@@ -372,6 +366,73 @@ footer a { color: #E0B55E; }
   table.mk td b, table.hs td b { font-size: 13.5px; }
   table.hs td.spk { display: none; }
   table.hs tr.none td.na { grid-column: 1 / -1; }
+}
+
+table.hs.wide { font-size: 14.5px; }
+table.hs.wide th { font-size: 12px; padding: 9px 16px 8px; }
+table.hs.wide td { padding: 9px 16px; }
+table.hs.wide td b { font-size: 15.5px; display: inline; }
+table.hs.wide td.nt { color: var(--muted); }
+table.hs.wide td.ld, .hbr .ld { color: var(--muted); font-size: 13px; }
+table.hs.wide td.ld .old, .hbr .ld .old { color: #B5651D; font-weight: 600; }
+table.hs.wide td.ld small, .hbr .ld small { display: block; font-size: 11px; color: var(--faint); font-weight: 500; }
+table.hs.wide td.ld .old small, .hbr .ld .old small { color: #B5651D; }
+table.hs em.tag, .hb em.tag { font-style: normal; font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #9A6B1F; margin-left: 10px; }
+.hb { padding: 2px 0 6px; }
+.hbh, .hbr { display: grid; grid-template-columns: 24% 90px 1fr 120px; align-items: center; column-gap: 18px; padding: 0 18px; }
+.hbh { font-size: 12px; font-weight: 700; color: #8A6A42; padding-top: 9px; padding-bottom: 8px; border-bottom: 1px solid rgba(90,58,28,.3); }
+.hbh span, .hbr > span { text-align: right; } .hbh .l, .hbr .l { text-align: left; } .hbh .sc { text-align: center; }
+.hbh .sc b { color: #5a3a1c; }
+.hbr { min-height: 64px; border-bottom: 1px solid rgba(90,58,28,.13); }
+.hbr:last-child { border-bottom: none; }
+.hbr.best1 { background: linear-gradient(90deg, rgba(212,170,90,.28), rgba(212,170,90,.08)); box-shadow: inset 3px 0 0 #B8862E; }
+.hbr .l small, .hbr .n small { display: block; font-size: 11px; color: var(--faint); }
+.hbr .n { font-variant-numeric: tabular-nums; font-size: 14.5px; }
+.hbr.none .na { text-align: left; font-size: 12.5px; color: var(--faint); }
+.trk { position: relative; height: 64px; }
+.trk::before { content: ""; position: absolute; left: 0; right: 0; top: 38px; height: 2px; background: rgba(90,58,28,.12); border-radius: 2px; }
+.trk .rg { position: absolute; top: 35px; height: 8px; border-radius: 6px; background: linear-gradient(90deg, rgba(140,58,46,.55), rgba(184,134,46,.55), rgba(42,107,55,.6)); }
+.trk .mnd, .trk .mxd { position: absolute; top: 34px; width: 3px; height: 10px; margin-left: -1.5px; border-radius: 2px; }
+.trk .mnd { background: #8C3A2E; } .trk .mxd { background: #2A6B37; }
+.trk .av { position: absolute; top: 31px; width: 16px; height: 16px; margin-left: -8px; border-radius: 50%; background: #FBF3E2; border: 3px solid #5a3a1c; box-shadow: 0 1px 3px rgba(0,0,0,.25); }
+.trk .lb { position: absolute; transform: translateX(-50%); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.trk .lb.mn, .trk .lb.mx { top: 46px; font-size: 12px; font-weight: 700; }
+.trk .lb.mn { color: #8C3A2E; transform: translateX(-100%); } .trk .lb.mx { color: #2A6B37; transform: translateX(0); }
+.trk .lb.ag { top: 2px; text-align: center; line-height: 1.05; } .trk .lb.ag b { font-size: 15px; color: #3b2412; } .trk .lb.ag small { display: block; font-size: 10.5px; color: var(--muted); }
+
+#perbar:has(.vsw) { flex: 1; }
+.hgrp { display: flex; align-items: center; gap: 8px 12px; flex-wrap: wrap; }
+.hgrp.vsw { margin-left: auto; }
+.vsw .seg.sm button { display: inline-flex; align-items: center; gap: 6px; } .vsw svg { width: 15px; height: 15px; }
+.dbox { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 10px 0 12px; border-radius: 10px; border: 1px dashed rgba(90,58,28,.35); background: rgba(255,250,235,.35); }
+.dbox.on { border: 1.5px solid #B8862E; background: rgba(212,170,90,.18); box-shadow: 0 0 0 3px rgba(184,134,46,.12); }
+.dbox .dt input { height: 30px; }
+.dbox .arr { color: var(--faint); font-weight: 700; }
+.dbox .dn { font-size: 12px; font-weight: 700; color: var(--muted); white-space: nowrap; padding-left: 2px; }
+.dbox.on .dn { color: #8A5A12; }
+
+@media (max-width: 720px) {
+  .hgrp { width: 100%; } .hgrp .seg.sm { flex: 1; } .hgrp .seg.sm button { flex: 1; justify-content: center; }
+  .hgrp.vsw { margin-left: 0; }
+  .dbox { width: 100%; height: auto; flex-wrap: wrap; padding: 8px 10px; }
+  .dbox .dt { flex: 1; min-width: 0; } .dbox .dt input { flex: 1; min-width: 0; width: 100%; }
+  .dbox .arr { display: none; } .dbox .dn { flex-basis: 100%; }
+}
+
+.hint { padding: 22px 12px 26px; text-align: center; font-size: 14px; color: var(--muted); }
+@media (max-width: 720px) {
+  table.hs.wide tr { grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 7px 0 8px; }
+  table.hs.wide td { padding: 3px 6px; text-align: left; }
+  table.hs.wide td:first-child { padding-left: 10px; flex-wrap: wrap; row-gap: 0; }
+  table.hs.wide td:nth-child(2), table.hs.wide td:nth-child(5) { padding-left: 10px; }
+  table.hs.wide td b { font-size: 14px; display: block; }
+  table.hs.wide td.ld { font-size: 12.5px; }
+  table.hs em.tag, .hb em.tag { margin-left: 0; font-size: 9.5px; }
+  .hbh { display: none; }
+  .hbr { grid-template-columns: minmax(0, 1fr) auto auto; grid-template-areas: "l n ld" "trk trk trk"; column-gap: 14px; padding: 8px 10px 0; min-height: 0; }
+  .hbr .l { grid-area: l; } .hbr .n { grid-area: n; } .hbr .trk { grid-area: trk; margin: 0 24px; } .hbr .ld { grid-area: ld; }
+  .hbr.none { display: flex; flex-wrap: wrap; gap: 4px 12px; padding: 10px; }
+  .hbr .l em.tag { display: block; margin: 2px 0 0; }
 }
 </style>
 </head>
@@ -507,12 +568,13 @@ footer a { color: #E0B55E; }
     view: store.get("view", "ora") === "sto" ? "sto" : "ora",
     hp: { p: 30, from: "", to: "", ...store.get("hp", {}) }, shown: PAGE,
     px: new Map(), hx: new Map(), busy: 0, at: null, err: null,
-    ord: store.get("ordine", "sell") === "buy" ? "buy" : "sell", opened: new Set()
+    ord: store.get("ordine", "sell") === "buy" ? "buy" : "sell", opened: new Set(), hv: store.get("hv", "tab") === "scala" ? "scala" : "tab"
   };
   S.sel = new Set((store.get("sel", null) ?? store.get("fav", []).map(t => String(t).split(":")[0])).filter(id => parseVariant(id)));
   S.selVer = 0;
   const saveSel = () => { store.set("sel", [...S.sel]); S.selVer++; };
-  if (![0, 1, 7, 30].includes(S.hp.p)) S.hp.p = 30;
+  const PRESETS = [1, 7, 15, 30];
+  if (![0, ...PRESETS].includes(S.hp.p)) S.hp.p = 30;
   if (!CATS[S.f.cat]) { S.f.cat = -1; S.f.sub = -1; }
   if (S.f.cat < 0 || !CATS[S.f.cat][2][S.f.sub]) S.f.sub = -1;
   if (S.f.sub < 0 || !CATS[S.f.cat][2][S.f.sub][2][S.f.typ]) S.f.typ = -1;
@@ -593,13 +655,19 @@ footer a { color: #E0B55E; }
         const z = m.get(t) || { n: 0, s: 0 }; z.n += d.item_count; z.s += d.avg_price * d.item_count; m.set(t, z);
       }
     }
+    const lastH = {};
+    for (const h of rec.hrows || []) {
+      const ck = cityKey(h.location); if (!CITY[ck] || (r.withQ && q && h.quality !== q)) continue;
+      for (const d of h.data || []) { const t = +parseDate(d.timestamp); if (t && t >= hr.lo && t <= hr.hi && d.item_count > 0 && t > (lastH[ck] || 0)) lastH[ck] = t; }
+    }
     const out = {};
     for (const c of CITIES) {
       const m = per[c.key];
       if (!m || !m.size) { out[c.key] = null; continue; }
       const pts = [...m].map(([t, z]) => ({ t, v: z.s / z.n, n: z.n })).sort((a, b) => a.t - b.t);
       const n = pts.reduce((s, p) => s + p.n, 0);
-      out[c.key] = { pts, n, avg: pts.reduce((s, p) => s + p.v * p.n, 0) / n, min: Math.min(...pts.map(p => p.v)), max: Math.max(...pts.map(p => p.v)), days: new Set(pts.map(p => utcMid(p.t))).size };
+      out[c.key] = { pts, n, avg: pts.reduce((s, p) => s + p.v * p.n, 0) / n, min: Math.min(...pts.map(p => p.v)), max: Math.max(...pts.map(p => p.v)), days: new Set(pts.map(p => utcMid(p.t))).size,
+        last: lastH[c.key] ? { t: lastH[c.key], h: true } : { t: pts[pts.length - 1].t, h: hr.ts < 24 } };
     }
     return out;
   }
@@ -677,9 +745,14 @@ footer a { color: #E0B55E; }
       for (const part of chunks(needH, 20)) {
         const rows = await api(`/api/v2/stats/history/${part.map(encodeURIComponent).join(",")}.json?locations=${LOCS}&qualities=${qp}&time-scale=${hr.ts}&date=${ymd(new Date(hr.lo))}&end_date=${ymd(new Date(hr.hi + DAY))}`);
         if (server !== S.server) return;
-        const at = Date.now(), got = new Map(part.map(id => [id, []]));
-        for (const r of rows) if (got.has(r.item_id)) got.get(r.item_id).push(r);
-        got.forEach((list, id) => S.hx.set(key(id), { at, rows: list }));
+        let hrows = [];
+        const h0 = Math.max(hr.lo, Date.now() - 7 * DAY);
+        if (hr.hi > h0) hrows = await api(`/api/v2/stats/history/${part.map(encodeURIComponent).join(",")}.json?locations=${LOCS}&qualities=${qp}&time-scale=1&date=${ymd(new Date(h0))}&end_date=${ymd(new Date(hr.hi + DAY))}`);
+        if (server !== S.server) return;
+        const at = Date.now(), got = new Map(part.map(id => [id, { rows: [], hrows: [] }]));
+        for (const r of rows) if (got.has(r.item_id)) got.get(r.item_id).rows.push(r);
+        for (const r of hrows) if (got.has(r.item_id)) got.get(r.item_id).hrows.push(r);
+        got.forEach((g, id) => S.hx.set(key(id), { at, rows: g.rows, hrows: g.hrows }));
         part.forEach(id => inflight.delete("h" + key(id)));
         if (S.view === "sto") S.at = new Date();
         renderView();
@@ -767,26 +840,34 @@ footer a { color: #E0B55E; }
         <div class="pill2" role="group" aria-label="Ordina i mercati"><button type="button" data-o="sell" class="${S.ord === "sell" ? "on" : ""}" aria-pressed="${S.ord === "sell"}" title="Per ogni oggetto la città dove lo metti in vendita al prezzo più alto"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 11V3M3.5 6.5 7 3l3.5 3.5"/></svg>Chi vende</button><button type="button" data-o="buy" class="${S.ord === "buy" ? "on" : ""}" aria-pressed="${S.ord === "buy"}" title="Per ogni oggetto la città dove lo compri subito al prezzo più basso"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M3.5 7.5 7 11l3.5-3.5"/></svg>Chi compra</button></div>`;
       return;
     }
-    const hr = histRange();
-    el.innerHTML = `<span class="lbl">Periodo</span>
-      <div class="seg sm" role="group" aria-label="Periodo">${[[1, "24 ore"], [7, "7 giorni"], [30, "30 giorni"], [0, '<span class="hide-m">Scegli le date</span><span class="only-m">Date</span>']].map(([p, l]) => `<button type="button" data-p="${p}" class="${h.p === p ? "on" : ""}" aria-pressed="${h.p === p}">${l}</button>`).join("")}</div>
-      ${h.p ? "" : `<label class="dt">Dal <input type="date" id="dFrom" value="${esc(h.from)}" max="${todayYmd()}"></label><label class="dt">Al <input type="date" id="dTo" value="${esc(h.to)}" max="${todayYmd()}"></label>`}
-      <span class="pernote">Vendite già concluse ${esc(hr.label)}, tutte insieme: il database non distingue se sono passate da un ordine di vendita, da un ordine d'acquisto o da una vendita subito. <b>Minimo</b> e <b>massimo</b> sono il prezzo medio ${hr.ts === 6 ? "della fascia di 6 ore" : "del giorno"} più basso e più alto.</span>`;
+    const hr = histRange(), rg = h.p ? presetRange(h.p) : { from: h.from, to: h.to };
+    el.innerHTML = `<div class="hgrp"><span class="lbl">Periodo</span>
+      <div class="seg sm" role="group" aria-label="Periodo veloce">${PRESETS.map(p => `<button type="button" data-p="${p}" class="${h.p === p ? "on" : ""}" aria-pressed="${h.p === p}">${p === 1 ? "24 ore" : p + " giorni"}</button>`).join("")}</div>
+      <div class="dbox${h.p ? "" : " on"}" title="Cambia le date per scegliere un periodo tuo">
+        <label class="dt">Dal <input type="date" id="dFrom" value="${esc(rg.from)}" max="${todayYmd()}"></label><span class="arr">→</span>
+        <label class="dt">Al <input type="date" id="dTo" value="${esc(rg.to)}" max="${todayYmd()}"></label>
+        <span class="dn">${h.p === 1 ? "ultime 24 ore" : h.p ? `${hr.days} giorni` : `personalizzato · ${hr.days} ${hr.days === 1 ? "giorno" : "giorni"}`}</span></div></div>
+      <div class="hgrp vsw"><span class="lbl">Vista</span><div class="seg sm" role="group" aria-label="Vista">
+        <button type="button" data-hv="tab" class="${S.hv === "tab" ? "on" : ""}" aria-pressed="${S.hv === "tab"}"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M2 7h12M2 10h12M6 3v10"/></svg>Tabella</button>
+        <button type="button" data-hv="scala" class="${S.hv === "scala" ? "on" : ""}" aria-pressed="${S.hv === "scala"}"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M2 5h7M5 11h9"/><circle cx="6" cy="5" r="1.6" fill="currentColor"/><circle cx="10" cy="11" r="1.6" fill="currentColor"/></svg>Scala</button></div></div>
+      <span class="pernote">Vendite già concluse ${esc(hr.label)}, tutte insieme (ordini e vendite subito). <b>Minimo</b> e <b>massimo</b>: il prezzo medio ${hr.ts === 6 ? "della fascia di 6 ore" : "del giorno"} più basso e più alto.</span>`;
   }
+  function presetRange(p) { const t = utcMid(Date.now()); return { from: ymd(new Date(t - Math.max(p - 1, 1) * DAY)), to: ymd(new Date(t)) }; }
   $("#views").addEventListener("click", e => { const b = e.target.closest("[data-view]"); if (!b || b.dataset.view === S.view) return; S.view = b.dataset.view; store.set("view", S.view); render(); ensure(); });
   $("#refresh").addEventListener("click", () => ensure(true));
   function setPeriod(p) {
-    S.hp.p = p;
-    if (!p && (!S.hp.from || !S.hp.to)) { const t = utcMid(Date.now()); S.hp.to = ymd(new Date(t)); S.hp.from = ymd(new Date(t - 13 * DAY)); }
+    S.hp.p = p; Object.assign(S.hp, presetRange(p));
     store.set("hp", S.hp); render(); ensure();
   }
   $("#perbar").addEventListener("click", e => {
     const b = e.target.closest("[data-p]"); if (b) return setPeriod(+b.dataset.p);
+    const v = e.target.closest("[data-hv]"); if (v && v.dataset.hv !== S.hv) { S.hv = v.dataset.hv; store.set("hv", S.hv); $("#perbar").dataset.sig = ""; renderTool(); renderView(); return; }
     const o = e.target.closest("[data-o]"); if (o && o.dataset.o !== S.ord) { S.ord = o.dataset.o; store.set("ordine", S.ord); render(); }
   });
   $("#perbar").addEventListener("change", e => {
     if (e.target.id !== "dFrom" && e.target.id !== "dTo" || !parseYmd(e.target.value)) return;
-    S.hp[e.target.id === "dFrom" ? "from" : "to"] = e.target.value;
+    if (S.hp.p) Object.assign(S.hp, presetRange(S.hp.p));      // parto dalle date del periodo veloce
+    S.hp.p = 0; S.hp[e.target.id === "dFrom" ? "from" : "to"] = e.target.value;
     store.set("hp", S.hp); $("#perbar").dataset.sig = [S.hp.p, S.hp.from, S.hp.to].join("|");
     renderView(); ensure();
     const note = $("#perbar .pernote"); if (note) { $("#perbar").dataset.sig = ""; const a = document.activeElement && document.activeElement.id; renderTool(); if (a) { const x = document.getElementById(a); if (x) x.focus(); } }
@@ -802,9 +883,10 @@ footer a { color: #E0B55E; }
     if (b.dataset.act === "showsel") { S.f = { ...NOF }; applyFilters(); window.scrollTo({ top: $("section.card").offsetTop - 12, behavior: "smooth" }); }
   });
   function toggleSel(id, on) {
+    const was = results(), wasSel = !!(was && was.sel);
     on ? S.sel.add(id) : S.sel.delete(id); saveSel();
     const res = results();
-    if (res && res.sel) render(); else renderBar();   // nella vista «con la spunta» il riquadro sparisce subito
+    if (wasSel || (res && res.sel)) render(); else renderBar();   // anche quando togli l'ultima spunta: torna la schermata iniziale   // nella vista «con la spunta» il riquadro sparisce subito
   }
 
   // ---------- i riquadri ----------
@@ -881,47 +963,57 @@ footer a { color: #E0B55E; }
     return `<div class="exp8"><div class="leg"><span><i class="dot-b"></i>chi compra paga</span><span><i class="dot-s"></i>chi vende chiede</span><span><b class="dlk">Δ</b>differenza</span><span class="hide-m">sotto ogni prezzo: quando è stato visto</span></div>
       <div class="lad">${lines}<div class="axr"><span class="ax">${ticks.map(t => `<span style="left:${pos(t).toFixed(2)}%">${fmt(t)}</span>`).join("")}</span></div></div></div>`;
   }
-  function spark(pts, color, hr) {
-    if (pts.length < 2) return `<small>1 solo dato</small>`;
-    const lo = Math.min(...pts.map(p => p.v)), span = Math.max(...pts.map(p => p.v)) - lo || 1, w = Math.max(1, hr.hi - hr.lo);
-    const d = pts.map((p, i) => `${i ? "L" : "M"}${Math.min(100, Math.max(0, (p.t - hr.lo) / w * 100)).toFixed(1)} ${(23 - (p.v - lo) / span * 20).toFixed(1)}`).join(" ");
-    return `<svg class="spark" viewBox="0 0 100 26" preserveAspectRatio="none" aria-hidden="true"><path d="${d}" fill="none" stroke="${color}" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/></svg>`;
-  }
+
   // Storico: vendite concluse nel periodo; in cima il mercato dove si è venduto più caro in media
+  const lastTxt = (t, withHour) => {
+    const d = new Date(t), now = new Date(), same = (x, y) => x.toDateString() === y.toDateString();
+    const day = same(d, now) ? "oggi" : same(d, new Date(now - 864e5)) ? "ieri" : d.toLocaleDateString("it-IT", { day: "numeric", month: "short" });
+    return withHour ? `${day} ${String(d.getHours()).padStart(2, "0")}:00` : day;
+  };
   function stoCard(r) {
-    const st = histStats(r), hr = histRange();
+    const st = histStats(r), hr = histRange(), V = S.hv === "scala" ? "B" : "A";
     let body;
     if (!st) body = inflight.has("h" + hKey(r.id)) ? spin("Carico lo storico…") : `<div class="cmsg">Storico non ancora scaricato: premi il tasto per aggiornare.</div>`;
     else if (!CITIES.some(c => st[c.key])) body = `<div class="cmsg">Nessuna vendita registrata ${esc(hr.label)}.</div>`;
     else {
       const rows = CITIES.map(c => ({ c, bm: c.key === "blackmarket", s: st[c.key] })).sort((a, b) => (a.s == null) - (b.s == null) || a.bm - b.bm || (b.s ? b.s.avg : 0) - (a.s ? a.s.avg : 0));
-      body = `<table class="hs"><colgroup><col class="c"><col style="width:86px"><col><col><col><col style="width:112px"></colgroup><thead><tr><th class="l">Mercato</th><th>Venduti</th><th>Prezzo medio</th><th>Minimo</th><th>Massimo</th><th>Andamento</th></tr></thead><tbody>
-        ${rows.map((x, i) => !x.s
-          ? `<tr class="none"><td><span class="flagc" style="color:var(--faint)">${flagSvg(x.c.color)}${esc(x.c.name)}</span></td><td colspan="5" class="na">nessuna vendita registrata</td></tr>`
-          : `<tr class="${i === 0 ? "best1" : ""}"><td><span class="flagc">${flagSvg(x.c.color)}${esc(x.c.name)}</span>${hr.ts === 24 && hr.days > 1 ? `<small>in ${x.s.days} ${x.s.days === 1 ? "giorno" : "giorni"} su ${hr.days}</small>` : ""}</td>
-            <td data-l="Venduti">${fmt(x.s.n)}<small>pezzi</small></td>
-            <td data-l="Media"><b>${fmt(x.s.avg)}</b><small>netto ${fmt(x.bm ? netNow(x.s.avg) : netOrder(x.s.avg))}</small></td>
-            <td class="mn" data-l="Minimo">${fmt(x.s.min)}</td><td class="mx" data-l="Massimo">${fmt(x.s.max)}</td>
-            <td class="spk">${spark(x.s.pts, x.c.line, hr)}</td></tr>`).join("")}</tbody></table>`;
+      const days = x => hr.ts === 24 && hr.days > 1 ? `<small>in ${x.s.days} ${x.s.days === 1 ? "giorno" : "giorni"} su ${hr.days}</small>` : "";
+      const last = x => { const L = x.s.last, recent = hr.hi > Date.now() - DAY, old = recent && Date.now() - L.t > 12 * 3600e3;
+        return `<span class="${old ? "old" : ""}">${lastTxt(L.t, L.h)}${recent ? `<small>${L.h ? ageText(new Date(L.t)) : "solo la data"}</small>` : ""}</span>`; };
+      const city = (x, i) => `<span class="flagc">${flagSvg(x.c.color)}${esc(x.c.name)}</span>${i === 0 ? `<em class="tag">prezzo medio più alto</em>` : ""}`;
+      if (V === "A") {
+        body = `<table class="hs wide"><colgroup><col style="width:24%"><col><col><col><col><col><col></colgroup><thead><tr><th class="l">Mercato</th><th>Pezzi venduti</th><th>Prezzo medio</th><th>Netto dopo le tasse</th><th>Minimo</th><th>Massimo</th><th>Ultimo dato</th></tr></thead><tbody>
+          ${rows.map((x, i) => !x.s
+            ? `<tr class="none"><td><span class="flagc" style="color:var(--faint)">${flagSvg(x.c.color)}${esc(x.c.name)}</span></td><td colspan="6" class="na">nessuna vendita registrata</td></tr>`
+            : `<tr class="${i === 0 ? "best1" : ""}"><td>${city(x, i)}${days(x)}</td>
+              <td data-l="Venduti">${fmt(x.s.n)}</td><td data-l="Prezzo medio"><b>${fmt(x.s.avg)}</b></td><td class="nt" data-l="Netto">${fmt(x.bm ? netNow(x.s.avg) : netOrder(x.s.avg))}</td>
+              <td class="mn" data-l="Minimo">${fmt(x.s.min)}</td><td class="mx" data-l="Massimo">${fmt(x.s.max)}</td><td class="ld" data-l="Ultimo dato">${last(x)}</td></tr>`).join("")}</tbody></table>`;
+      } else {
+        const live = rows.filter(x => x.s), lo0 = Math.min(...live.map(x => x.s.min)), hi0 = Math.max(...live.map(x => x.s.max)), pad = (hi0 - lo0) * .06 || hi0 * .05;
+        const lo = lo0 - pad, hi = hi0 + pad, pos = v => 2 + (v - lo) / (hi - lo) * 96;
+        body = `<div class="hb"><div class="hbh"><span class="l">Mercato</span><span>Venduti</span><span class="sc">Minimo · <b>prezzo medio</b> · massimo</span><span>Ultimo dato</span></div>
+          ${rows.map((x, i) => !x.s
+            ? `<div class="hbr none"><span class="l"><span class="flagc" style="color:var(--faint)">${flagSvg(x.c.color)}${esc(x.c.name)}</span></span><span></span><span class="na">nessuna vendita registrata</span><span></span></div>`
+            : `<div class="hbr${i === 0 ? " best1" : ""}"><span class="l">${city(x, i)}${days(x)}</span><span class="n">${fmt(x.s.n)}<small>pezzi</small></span>
+              <span class="trk"><i class="rg" style="left:${pos(x.s.min)}%;width:${pos(x.s.max) - pos(x.s.min)}%"></i>
+                <i class="mnd" style="left:${pos(x.s.min)}%"></i><i class="mxd" style="left:${pos(x.s.max)}%"></i><i class="av" style="left:${pos(x.s.avg)}%"></i>
+                <span class="lb mn" style="left:${pos(x.s.min)}%">${fmt(x.s.min)}</span><span class="lb mx" style="left:${pos(x.s.max)}%">${fmt(x.s.max)}</span>
+                <span class="lb ag" style="left:${pos(x.s.avg)}%"><b>${fmt(x.s.avg)}</b><small>netto ${fmt(x.bm ? netNow(x.s.avg) : netOrder(x.s.avg))}</small></span></span>
+              <span class="ld">${last(x)}</span></div>`).join("")}</div>`;
+      }
     }
     return `<article class="icard" data-id="${esc(r.id)}">${cardHead(r)}${body}</article>`;
   }
   function emptyHtml() {
     const res = results();
-    if (!res) {
-      const REP = ["T8_MAIN_SWORD", "T8_ARMOR_PLATE_SET1", "T8_HEAD_LEATHER_SET1", "T8_SHOES_CLOTH_SET1", "T8_OFF_SHIELD", "T8_CAPE", "T8_BAG", "T8_MOUNT_ARMORED_HORSE", "T6_POTION_HEAL", "T8_2H_TOOL_PICK", "T6_PLANKS", "T8_ARTEFACT_2H_BOW_KEEPER", "T8_FARM_OX_BABY", "T8_FURNITUREITEM_REPAIRKIT", "SKIN_HORSE_UNICORN", "UNIQUE_HIDEOUT"];
-      const rep = i => { const x = byBase.get(REP[i]); return x && x.c === i ? x.base : (BROWSE.find(y => y.c === i && !y.vanity) || BROWSE.find(y => y.c === i) || {}).base; };
-      return `<div class="empty"><h3>Cosa cerchi?</h3><p>Scrivi il nome di un oggetto nella barra qui sopra, oppure scegli una categoria come nel mercato del gioco.<br>Metti la spunta agli oggetti che ti interessano: quando togli i filtri, qui vedrai solo quelli.</p>
-        <div class="cats">${CATS.map((c, i) => `<button type="button" class="cat" data-cat="${i}">${imgTag(rep(i) || "", 1)}<span>${esc(TILE[c[0]] || c[1])}</span></button>`).join("")}</div></div>`;
-    }
-    return `<div class="empty"><h3>Nessun oggetto</h3><p>${res.sel ? "Nessuno degli oggetti con la spunta ha questo tier o incantamento." : "Nessun oggetto corrisponde a questi filtri. Prova con meno parole o togli qualche filtro."}</p><button type="button" class="btn soft" data-act="reset">Azzera filtri</button></div>`;
+    if (!res) return `<div class="hint">Scegli una categoria nei filtri qui sopra, oppure scrivi il nome di un oggetto.</div>`;
+    return `<div class="empty"><h3>Nessun oggetto</h3><p>${res.sel ? "Nessuno degli oggetti con la spunta ha questo tier o incantamento." : "Nessun oggetto corrisponde a questi filtri. Prova con meno parole o togli qualche filtro."}</p><button type="button" class="btn soft" data-act="reset">Azzera i filtri</button></div>`;
   }
-  const TILE = { gathering: "Equip. da raccolta" };
   function renderView() {
     const res = results(), box = $("#cards");
     $("#notice").innerHTML = S.err ? `<div class="notice err">${esc(S.err)} <button type="button" class="link" data-act="retry">Riprova</button></div>` : "";
     if (!res || !res.length) { box.classList.add("solo"); box.innerHTML = emptyHtml(); $("#more").innerHTML = ""; return; }
-    box.classList.remove("solo"); box.classList.toggle("one", S.view === "ora");
+    box.classList.remove("solo"); box.classList.add("one");
     box.innerHTML = S.view === "ora" ? `<div class="list">${visible().map(oraRow).join("")}</div>` : visible().map(stoCard).join("");
     const left = res.length - S.shown;
     $("#more").innerHTML = `<span class="sub">${S.view === "ora"
@@ -931,7 +1023,6 @@ footer a { color: #E0B55E; }
   }
   function render() { renderBar(); renderView(); }
   $("#cards").addEventListener("click", e => {
-    const cat = e.target.closest("[data-cat]"); if (cat) { S.f.cat = +cat.dataset.cat; S.f.sub = -1; S.f.typ = -1; applyFilters(); return; }
     if (e.target.closest('[data-act="reset"]')) { S.f = { ...NOF }; applyFilters(); return; }
     if (e.target.closest(".ckb")) return;                     // la spunta non apre la riga
     const row = e.target.closest("[data-open], .row8");
